@@ -5,401 +5,68 @@
   <title>Дела</title>
 
   <!-- PWA -->
-  <link rel="manifest" href="./manifest.json">
+  <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#3bb54a">
 
   <style>
-    /* (Твой CSS оставляю без изменений) */
-    body {
-      font-family: Arial, sans-serif;
-      background: #f2f2f2;
-      padding: 20px;
-      max-width: 720px;
-      margin: auto;
-    }
+    body { font-family: Arial, sans-serif; background: #f2f2f2; padding: 20px; max-width: 720px; margin: auto; }
     h1, h2 { margin-bottom: 10px; }
-
-    .nav {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .nav button {
-      padding: 8px 14px;
-      cursor: pointer;
-      border: 1px solid #ccc;
-      background: #fff;
-      border-radius: 8px;
-      transition: transform .15s ease;
-      flex: 1 1 0;
-    }
-
-    .nav button:hover {
-      transform: translateY(-1px);
-    }
-
-    .stats {
-      margin-bottom: 20px;
-      background: #fff;
-      padding: 12px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .stats b {
-      font-size: 14px;
-    }
-
-    .sectionBox {
-      background: #fff;
-      border-radius: 14px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-      margin-bottom: 14px;
-      overflow: hidden;
-    }
-
-    .sectionHeader {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 14px;
-      border-bottom: 1px solid #eee;
-      background: #fafafa;
-    }
-
-    .sectionHeader .left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .sectionHeader h3 {
-      margin: 0;
-      font-size: 16px;
-    }
-
-    .sectionHeader .statusBox {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 10px;
-      border-radius: 12px;
-      border: 1px solid #ccc;
-      background: #fff;
-      font-size: 12px;
-    }
-
-    .statusBox.green {
-      background: #e4f7e9;
-      border-color: #b7e4c9;
-    }
-
-    .statusBox.red {
-      background: #ffe5e5;
-      border-color: #f2c6c6;
-    }
-
-    .sectionHeader .toggle {
-      cursor: pointer;
-      font-size: 14px;
-      padding: 6px 10px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      background: #fff;
-    }
-
-    .sectionContent {
-      padding: 12px 14px;
-    }
-
-    .card {
-      background: #fff;
-      padding: 12px 12px;
-      margin-bottom: 10px;
-      border-radius: 14px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: transform .15s ease, box-shadow .15s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-    }
-
-    .card.done {
-      background: #f6fff6;
-      opacity: 0.9;
-    }
-
-    .left {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      max-width: 70%;
-    }
-
-    .title {
-      font-size: 16px;
-      font-weight: 600;
-      word-break: break-word;
-    }
-
-    .title.done {
-      text-decoration: line-through;
-      color: #666;
-    }
-
-    .meta {
-      font-size: 12px;
-      color: #777;
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .badge {
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 1px solid #ccc;
-      background: #fafafa;
-      color: #555;
-    }
-
-    .badge.daily {
-      border-color: #4caf50;
-      background: #e8f5e9;
-      color: #2e7d32;
-    }
-
-    .badge.once {
-      border-color: #2196f3;
-      background: #e3f2fd;
-      color: #1565c0;
-    }
-
-    .badge.remind {
-      border-color: #ff9800;
-      background: #fff3e0;
-      color: #e65100;
-    }
-
-    .period {
-      display: none;
-      font-size: 12px;
-      color: #555;
-      margin-left: 4px;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      letter-spacing: 0.2px;
-      font-weight: 500;
-    }
-
-    .right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .btn {
-      border: none;
-      cursor: pointer;
-      padding: 8px 10px;
-      border-radius: 10px;
-      font-size: 14px;
-      transition: transform .15s ease;
-      background: #fff;
-      border: 1px solid #ccc;
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-    }
-
-    .check {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      border: 1px solid #ccc;
-      background: #fff;
-      font-size: 16px;
-      font-weight: 700;
-    }
-
-    .check.done {
-      background: #4caf50;
-      border-color: #4caf50;
-      color: white;
-    }
-
-    .edit, .delete, .info {
-      background: #fff;
-      border: 1px solid #ccc;
-    }
-
-    .form-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .form-row > * {
-      flex: 1 1 180px;
-      min-width: 180px;
-    }
-
-    input, select {
-      padding: 10px;
-      width: 100%;
-      margin-bottom: 8px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-    }
-
-    #addBtn {
-      padding: 10px 14px;
-      cursor: pointer;
-      border: none;
-      background: #3bb54a;
-      color: white;
-      border-radius: 14px;
-      font-weight: 700;
-      font-size: 14px;
-      width: auto;
-      transition: transform .15s ease, box-shadow .15s ease;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    }
-
-    #addBtn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 14px rgba(0,0,0,0.2);
-    }
-
-    .weekdays {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 8px;
-    }
-
-    .weekdays label {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 12px;
-      cursor: pointer;
-    }
-
-    .accordion {
-      margin-top: 18px;
-    }
-
-    .accordion button {
-      width: 100%;
-      text-align: left;
-      padding: 12px 14px;
-      border-radius: 12px;
-      border: 1px solid #ccc;
-      background: #fff;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: 600;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .accordionContent {
-      display: none;
-      margin-top: 10px;
-      padding: 14px;
-      border-radius: 12px;
-      border: 1px solid #ccc;
-      background: #fff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-
-    .accordionContent input,
-    .accordionContent select {
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    .accordionContent label {
-      display: block;
-      margin-top: 10px;
-      font-size: 13px;
-      color: #333;
-    }
-
+    .nav { display: flex; gap: 10px; margin-bottom: 10px; }
+    .nav button { padding: 8px 14px; cursor: pointer; border: 1px solid #ccc; background: #fff; border-radius: 8px; transition: transform .15s ease; flex: 1 1 0; }
+    .nav button:hover { transform: translateY(-1px); }
+    .stats { margin-bottom: 20px; background: #fff; padding: 12px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; justify-content: space-between; align-items: center; }
+    .stats b { font-size: 14px; }
+    .sectionBox { background: #fff; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 14px; overflow: hidden; }
+    .sectionHeader { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; border-bottom: 1px solid #eee; background: #fafafa; }
+    .sectionHeader .left { display: flex; align-items: center; gap: 12px; }
+    .sectionHeader h3 { margin: 0; font-size: 16px; }
+    .sectionHeader .statusBox { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 12px; border: 1px solid #ccc; background: #fff; font-size: 12px; }
+    .statusBox.green { background: #e4f7e9; border-color: #b7e4c9; }
+    .statusBox.red { background: #ffe5e5; border-color: #f2c6c6; }
+    .sectionHeader .toggle { cursor: pointer; font-size: 14px; padding: 6px 10px; border-radius: 10px; border: 1px solid #ccc; background: #fff; }
+    .sectionContent { padding: 12px 14px; }
+    .card { background: #fff; padding: 12px 12px; margin-bottom: 10px; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); display: flex; justify-content: space-between; align-items: center; transition: transform .15s ease, box-shadow .15s ease; }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+    .card.done { background: #f6fff6; opacity: 0.9; }
+    .left { display: flex; flex-direction: column; gap: 6px; max-width: 70%; }
+    .title { font-size: 16px; font-weight: 600; word-break: break-word; }
+    .title.done { text-decoration: line-through; color: #666; }
+    .meta { font-size: 12px; color: #777; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .badge { font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 1px solid #ccc; background: #fafafa; color: #555; }
+    .badge.daily { border-color: #4caf50; background: #e8f5e9; color: #2e7d32; }
+    .badge.once { border-color: #2196f3; background: #e3f2fd; color: #1565c0; }
+    .badge.remind { border-color: #ff9800; background: #fff3e0; color: #e65100; }
+    .period { display: none; font-size: 12px; color: #555; margin-left: 4px; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; letter-spacing: 0.2px; font-weight: 500; }
+    .right { display: flex; align-items: center; gap: 8px; }
+    .btn { border: none; cursor: pointer; padding: 8px 10px; border-radius: 10px; font-size: 14px; transition: transform .15s ease; background: #fff; border: 1px solid #ccc; }
+    .btn:hover { transform: translateY(-1px); }
+    .check { width: 38px; height: 38px; border-radius: 50%; border: 1px solid #ccc; background: #fff; font-size: 16px; font-weight: 700; }
+    .check.done { background: #4caf50; border-color: #4caf50; color: white; }
+    .edit, .delete, .info { background: #fff; border: 1px solid #ccc; }
+    .form-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .form-row > * { flex: 1 1 180px; min-width: 180px; }
+    input, select { padding: 10px; width: 100%; margin-bottom: 8px; border-radius: 10px; border: 1px solid #ccc; box-sizing: border-box; }
+    #addBtn { padding: 10px 14px; cursor: pointer; border: none; background: #3bb54a; color: white; border-radius: 14px; font-weight: 700; font-size: 14px; width: auto; transition: transform .15s ease, box-shadow .15s ease; display: inline-flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+    #addBtn:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(0,0,0,0.2); }
+    .weekdays { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+    .weekdays label { display: flex; align-items: center; gap: 4px; font-size: 12px; cursor: pointer; }
+    .accordion { margin-top: 18px; }
+    .accordion button { width: 100%; text-align: left; padding: 12px 14px; border-radius: 12px; border: 1px solid #ccc; background: #fff; cursor: pointer; font-size: 16px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+    .accordionContent { display: none; margin-top: 10px; padding: 14px; border-radius: 12px; border: 1px solid #ccc; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .accordionContent input, .accordionContent select { width: 100%; box-sizing: border-box; }
+    .accordionContent label { display: block; margin-top: 10px; font-size: 13px; color: #333; }
     @media (max-width: 600px) {
-      body {
-        padding: 12px;
-      }
-
-      .nav {
-        gap: 8px;
-        flex-direction: column;
-      }
-
-      .nav button {
-        width: 100%;
-        text-align: center;
-      }
-
-      .stats {
-        padding: 10px;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-      }
-
-      .sectionHeader {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-      }
-
-      .card {
-        padding: 10px;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-      }
-
-      .right {
-        width: 100%;
-        justify-content: flex-start;
-        gap: 8px;
-      }
-
-      .left {
-        max-width: 100%;
-      }
-
-      .form-row {
-        flex-direction: column;
-      }
-
-      .form-row > * {
-        min-width: 100%;
-      }
-
-      #addBtn {
-        width: 100%;
-        justify-content: center;
-      }
+      body { padding: 12px; }
+      .nav { gap: 8px; flex-direction: column; }
+      .nav button { width: 100%; text-align: center; }
+      .stats { padding: 10px; flex-direction: column; align-items: flex-start; gap: 8px; }
+      .sectionHeader { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .card { padding: 10px; flex-direction: column; align-items: flex-start; gap: 10px; }
+      .right { width: 100%; justify-content: flex-start; gap: 8px; }
+      .left { max-width: 100%; }
+      .form-row { flex-direction: column; }
+      .form-row > * { min-width: 100%; }
+      #addBtn { width: 100%; justify-content: center; }
     }
   </style>
 </head>
@@ -492,7 +159,6 @@
 </div>
 
 <script>
-/* ====== ТВОЙ JS КОД (НЕ ТРОГАЮ) ====== */
 const dailySection = document.getElementById("dailySection");
 const onceSection = document.getElementById("onceSection");
 const remindSection = document.getElementById("remindSection");
@@ -513,11 +179,7 @@ const accordionArrow = document.getElementById("accordionArrow");
 
 let viewDate = getMskToday();
 
-let sectionsState = {
-  daily: true,
-  once: true,
-  remind: true
-};
+let sectionsState = { daily: true, once: true, remind: true };
 
 function toggleAddSection() {
   if (addSection.style.display === "block") {
@@ -547,18 +209,11 @@ remindType.addEventListener("change", () => {
 });
 
 function getMskToday() {
-  const formatter = new Intl.DateTimeFormat("ru-RU", {
-    timeZone: "Europe/Moscow",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit"
-  });
-
+  const formatter = new Intl.DateTimeFormat("ru-RU", { timeZone: "Europe/Moscow", year: "numeric", month: "2-digit", day: "2-digit" });
   const parts = formatter.formatToParts(new Date());
   const day = parts.find(p => p.type === "day").value;
   const month = parts.find(p => p.type === "month").value;
   const year = parts.find(p => p.type === "year").value;
-
   return `${year}-${month}-${day}`;
 }
 
@@ -855,7 +510,7 @@ function renderSectionHeader(section, title, total, done) {
 
   const toggle = document.createElement("button");
   toggle.className = "toggle";
-  toggle.textContent = sectionsState[section] ? "Развернуть" : "Свернуть";
+  toggle.textContent = sectionsState[section] ? "Свернуть" : "Развернуть";
   toggle.onclick = () => {
     sectionsState[section] = !sectionsState[section];
     saveSectionsState();
@@ -879,7 +534,7 @@ function renderSection(section, title, tasks) {
 
   const content = document.createElement("div");
   content.className = "sectionContent";
-  content.style.display = sectionsState[section] ? "none" : "block";
+  content.style.display = sectionsState[section] ? "block" : "none";
 
   tasks.forEach(t => content.appendChild(renderTask(t, viewDate)));
   box.appendChild(content);
@@ -960,7 +615,7 @@ render();
 
 <script>
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./service-worker.js')
+    navigator.serviceWorker.register('service-worker.js')
       .then(() => console.log('SW registered'))
       .catch(err => console.error('SW failed', err));
   }
