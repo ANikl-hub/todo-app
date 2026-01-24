@@ -2,22 +2,20 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Дела</title>
-
-  <!-- Мобильный режим -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Дела</title>
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#3bb54a">
 
   <style>
-    :root {
+    :root{
       --bg: #f2f2f2;
       --card: #fff;
-      --border: #d6d6d6;
-      --text: #222;
-      --muted: #666;
+      --border: #d8d8d8;
+      --text: #333;
+      --muted: #777;
       --green: #3bb54a;
     }
 
@@ -25,34 +23,49 @@
       font-family: Arial, sans-serif;
       background: var(--bg);
       padding: 14px;
-      max-width: 720px;
-      margin: auto;
-      color: var(--text);
+      margin: 0;
+      max-width: 100%;
+      box-sizing: border-box;
     }
 
-    h1 { margin: 0 0 10px; font-size: 22px; }
+    h1{
+      margin: 0 0 12px 0;
+      font-size: 26px;
+      text-align: center;
+    }
 
     .nav {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       margin-bottom: 12px;
+      flex-wrap: wrap;
     }
 
     .nav button {
-      padding: 10px 10px;
+      flex: 1 1 30%;
+      padding: 12px 10px;
       cursor: pointer;
       border: 1px solid var(--border);
       background: var(--card);
       border-radius: 12px;
-      transition: transform .15s ease;
-      flex: 1 1 0;
       font-size: 14px;
+      font-weight: 700;
+      transition: transform .15s ease;
     }
 
-    .nav button:hover { transform: translateY(-1px); }
+    .nav button:hover{
+      transform: translateY(-1px);
+    }
 
-    .stats {
-      margin-bottom: 14px;
+    #viewDateDisplay{
+      flex: 1 1 100%;
+      text-align: center;
+      font-weight: 800;
+      margin-top: 6px;
+    }
+
+    .stats{
+      margin-bottom: 12px;
       background: var(--card);
       padding: 12px;
       border-radius: 14px;
@@ -63,17 +76,30 @@
       gap: 10px;
     }
 
-    .stats b { font-size: 13px; }
+    .stats b{
+      font-size: 14px;
+    }
 
-    .sectionBox {
+    .btn{
+      border: none;
+      cursor: pointer;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      flex: 0 0 auto;
+    }
+
+    .sectionBox{
       background: var(--card);
       border-radius: 14px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       overflow: hidden;
     }
 
-    .sectionHeader {
+    .sectionHeader{
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -82,9 +108,12 @@
       background: #fafafa;
     }
 
-    .sectionHeader .left { display: flex; align-items: center; gap: 10px; }
-    .sectionHeader h3 { margin: 0; font-size: 15px; }
-    .statusBox {
+    .sectionHeader h3{
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .statusBox{
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -95,52 +124,72 @@
       font-size: 12px;
     }
 
-    .statusBox.green { background: #e4f7e9; border-color: #b7e4c9; }
-    .statusBox.red { background: #ffe5e5; border-color: #f2c6c6; }
+    .statusBox.green{
+      background: #e4f7e9;
+      border-color: #b7e4c9;
+    }
+    .statusBox.red{
+      background: #ffe5e5;
+      border-color: #f2c6c6;
+    }
 
-    .sectionHeader .toggle {
+    .toggle{
       cursor: pointer;
       font-size: 14px;
-      padding: 6px 10px;
+      padding: 8px 10px;
       border-radius: 12px;
       border: 1px solid var(--border);
       background: var(--card);
     }
 
-    .sectionContent { padding: 12px 14px; }
+    .sectionContent{
+      padding: 12px 14px;
+    }
 
-    .card {
+    .card{
       background: var(--card);
-      padding: 12px 12px;
+      padding: 12px;
       margin-bottom: 10px;
       border-radius: 14px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.08);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: transform .15s ease, box-shadow .15s ease;
       gap: 10px;
     }
 
-    .card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+    .card.done{
+      background: #f6fff6;
+    }
 
-    .card.done { background: #f6fff6; opacity: 0.9; }
+    .left{
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-width: 70%;
+    }
 
-    .left { display: flex; flex-direction: column; gap: 6px; max-width: 70%; }
+    .title{
+      font-size: 16px;
+      font-weight: 700;
+      word-break: break-word;
+    }
 
-    .title { font-size: 15px; font-weight: 600; word-break: break-word; }
-    .title.done { text-decoration: line-through; color: var(--muted); }
+    .title.done{
+      text-decoration: line-through;
+      color: #666;
+    }
 
-    .meta {
+    .meta{
       font-size: 12px;
-      color: #777;
+      color: var(--muted);
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
       align-items: center;
     }
 
-    .badge {
+    .badge{
       font-size: 11px;
       padding: 2px 8px;
       border-radius: 999px;
@@ -149,34 +198,41 @@
       color: #555;
     }
 
-    .badge.daily { border-color: #4caf50; background: #e8f5e9; color: #2e7d32; }
-    .badge.once { border-color: #2196f3; background: #e3f2fd; color: #1565c0; }
-    .badge.remind { border-color: #ff9800; background: #fff3e0; color: #e65100; }
+    .badge.daily{
+      border-color: #4caf50;
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
 
-    .period { display: none; font-size: 12px; color: #555; margin-left: 4px; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; letter-spacing: 0.2px; font-weight: 500; }
+    .badge.once{
+      border-color: #2196f3;
+      background: #e3f2fd;
+      color: #1565c0;
+    }
 
-    .right {
+    .badge.remind{
+      border-color: #ff9800;
+      background: #fff3e0;
+      color: #e65100;
+    }
+
+    .period{
+      display: none;
+      font-size: 12px;
+      color: #555;
+    }
+
+    .right{
       display: flex;
       align-items: center;
       gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
-    .btn {
-      border: none;
-      cursor: pointer;
-      padding: 10px 10px;
-      border-radius: 12px;
-      font-size: 14px;
-      transition: transform .15s ease;
-      background: var(--card);
-      border: 1px solid var(--border);
-    }
-
-    .btn:hover { transform: translateY(-1px); }
-
-    .check {
-      width: 44px;
-      height: 44px;
+    .check{
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       border: 1px solid var(--border);
       background: var(--card);
@@ -184,14 +240,31 @@
       font-weight: 700;
     }
 
-    .check.done { background: var(--green); border-color: var(--green); color: white; }
+    .check.done{
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
 
-    .edit, .delete, .info { background: var(--card); border: 1px solid var(--border); }
+    .edit, .delete{
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      border-radius: 12px;
+    }
 
-    .form-row { display: flex; gap: 10px; flex-wrap: wrap; }
-    .form-row > * { flex: 1 1 180px; min-width: 180px; }
+    .form-row{
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
 
-    input, select {
+    .form-row > *{
+      flex: 1 1 180px;
+      min-width: 160px;
+    }
+
+    input, select{
       padding: 12px;
       width: 100%;
       margin-bottom: 8px;
@@ -201,49 +274,54 @@
       font-size: 14px;
     }
 
-    #addBtn {
+    #addBtn{
       padding: 12px 14px;
       cursor: pointer;
       border: none;
       background: var(--green);
       color: white;
-      border-radius: 16px;
+      border-radius: 14px;
       font-weight: 700;
-      font-size: 14px;
+      font-size: 16px;
       width: 100%;
-      transition: transform .15s ease, box-shadow .15s ease;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
+      margin-top: 10px;
+    }
+
+    .weekdays{
+      display: flex;
       gap: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      flex-wrap: wrap;
+      margin-bottom: 8px;
     }
 
-    #addBtn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+    .weekdays label{
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      cursor: pointer;
     }
 
-    .weekdays { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
-    .weekdays label { display: flex; align-items: center; gap: 4px; font-size: 12px; cursor: pointer; }
+    .accordion{
+      margin-top: 14px;
+    }
 
-    .accordion { margin-top: 16px; }
-    .accordion button {
+    .accordion button{
       width: 100%;
       text-align: left;
-      padding: 12px 14px;
+      padding: 14px;
       border-radius: 14px;
       border: 1px solid var(--border);
       background: var(--card);
       cursor: pointer;
       font-size: 16px;
-      font-weight: 600;
+      font-weight: 700;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .accordionContent {
+    .accordionContent{
       display: none;
       margin-top: 10px;
       padding: 14px;
@@ -253,21 +331,47 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
-    .accordionContent input, .accordionContent select { width: 100%; box-sizing: border-box; }
-    .accordionContent label { display: block; margin-top: 10px; font-size: 13px; color: #333; }
+    .accordionContent label{
+      display: block;
+      margin-top: 10px;
+      font-size: 13px;
+      color: #333;
+    }
 
-    @media (max-width: 600px) {
-      body { padding: 10px; }
-      h1 { font-size: 20px; }
-      .nav { gap: 8px; flex-direction: column; }
-      .nav button { width: 100%; }
-      .stats { padding: 10px; flex-direction: column; align-items: flex-start; gap: 8px; }
-      .sectionHeader { flex-direction: column; align-items: flex-start; gap: 8px; }
-      .card { flex-direction: column; align-items: flex-start; gap: 10px; padding: 12px; }
-      .right { width: 100%; justify-content: flex-start; gap: 8px; }
-      .left { max-width: 100%; }
-      .form-row { flex-direction: column; }
-      .form-row > * { min-width: 100%; }
+    @media (max-width: 500px){
+      body{
+        padding: 10px;
+      }
+
+      .nav button{
+        flex: 1 1 100%;
+      }
+
+      .card{
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .left{
+        max-width: 100%;
+      }
+
+      .right{
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .form-row{
+        flex-direction: column;
+      }
+
+      .form-row > *{
+        min-width: 100%;
+      }
+
+      #addBtn{
+        font-size: 18px;
+      }
     }
   </style>
 </head>
@@ -279,12 +383,12 @@
   <button onclick="changeDay(-1)">← Вчера</button>
   <button onclick="goToday()">Сегодня</button>
   <button onclick="changeDay(1)">Завтра →</button>
-  <div style="margin-left:auto; font-weight: bold;" id="viewDateDisplay"></div>
+  <div id="viewDateDisplay"></div>
 </div>
 
 <div class="stats">
   <div id="stats"></div>
-  <button class="btn info" id="toggleDatesBtn" onclick="toggleAllPeriods()">📅 Показать даты</button>
+  <button class="btn" id="toggleDatesBtn" onclick="toggleAllPeriods()">📅 Показать даты</button>
 </div>
 
 <div id="dailySection"></div>
@@ -360,425 +464,469 @@
 </div>
 
 <script>
-const dailySection = document.getElementById("dailySection");
-const onceSection = document.getElementById("onceSection");
-const remindSection = document.getElementById("remindSection");
+  const dailySection = document.getElementById("dailySection");
+  const onceSection = document.getElementById("onceSection");
+  const remindSection = document.getElementById("remindSection");
 
-const typeSelect = document.getElementById("type");
-const datesDiv = document.getElementById("dates");
-const remindDiv = document.getElementById("remind");
-const remindType = document.getElementById("remindType");
-const remindEveryBlock = document.getElementById("remindEveryBlock");
-const weekdaysBlock = document.getElementById("weekdaysBlock");
+  const typeSelect = document.getElementById("type");
+  const datesDiv = document.getElementById("dates");
+  const remindDiv = document.getElementById("remind");
+  const remindType = document.getElementById("remindType");
+  const remindEveryBlock = document.getElementById("remindEveryBlock");
+  const weekdaysBlock = document.getElementById("weekdaysBlock");
 
-const statsDiv = document.getElementById("stats");
-const viewDateDisplay = document.getElementById("viewDateDisplay");
-const toggleDatesBtn = document.getElementById("toggleDatesBtn");
+  const statsDiv = document.getElementById("stats");
+  const viewDateDisplay = document.getElementById("viewDateDisplay");
+  const toggleDatesBtn = document.getElementById("toggleDatesBtn");
 
-const addSection = document.getElementById("addSection");
-const accordionArrow = document.getElementById("accordionArrow");
+  const addSection = document.getElementById("addSection");
+  const accordionArrow = document.getElementById("accordionArrow");
 
-let viewDate = getMskToday();
-let sectionsState = { daily: true, once: true, remind: true };
+  let viewDate = getMskToday();
 
-function toggleAddSection() {
-  if (addSection.style.display === "block") {
-    addSection.style.display = "none";
-    accordionArrow.textContent = "+";
-  } else {
-    addSection.style.display = "block";
-    accordionArrow.textContent = "−";
-  }
-}
-toggleAddSection();
-
-typeSelect.addEventListener("change", () => {
-  datesDiv.style.display = typeSelect.value === "daily" ? "block" : "none";
-  remindDiv.style.display = typeSelect.value === "remind" ? "block" : "none";
-});
-
-remindType.addEventListener("change", () => {
-  const type = remindType.value;
-  remindEveryBlock.style.display = type === "every" ? "block" : "none";
-  weekdaysBlock.style.display = type === "weekdays" ? "block" : "none";
-  if (type === "weekdays") document.getElementById("remindStart").value = getMskToday();
-});
-
-function getMskToday() {
-  const formatter = new Intl.DateTimeFormat("ru-RU", { timeZone: "Europe/Moscow", year: "numeric", month: "2-digit", day: "2-digit" });
-  const parts = formatter.formatToParts(new Date());
-  const day = parts.find(p => p.type === "day").value;
-  const month = parts.find(p => p.type === "month").value;
-  const year = parts.find(p => p.type === "year").value;
-  return `${year}-${month}-${day}`;
-}
-
-function formatDate(dateStr) {
-  const [y, m, d] = dateStr.split("-");
-  return `${d}.${m}.${y}`;
-}
-
-function loadTasks() {
-  return JSON.parse(localStorage.getItem("tasks") || "[]");
-}
-
-function saveTasks(tasks) {
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-}
-
-function loadSectionsState() {
-  const saved = localStorage.getItem("sectionsState");
-  if (saved) sectionsState = JSON.parse(saved);
-}
-
-function saveSectionsState() {
-  localStorage.setItem("sectionsState", JSON.stringify(sectionsState));
-}
-
-function resetShowPeriodIfNewDay() {
-  const lastShownDate = localStorage.getItem("datePeriodShownDate");
-  const today = getMskToday();
-  if (lastShownDate !== today) {
-    const tasks = loadTasks();
-    tasks.forEach(t => t.showPeriod = false);
-    saveTasks(tasks);
-    localStorage.setItem("datePeriodShownDate", today);
-    localStorage.setItem("allDatesVisible", "false");
-  }
-}
-resetShowPeriodIfNewDay();
-
-function addTask() {
-  const title = document.getElementById("title").value.trim();
-  const type = typeSelect.value;
-  if (!title) return;
-
-  const task = { id: Date.now(), title, type, completedDates: [], showPeriod: false };
-
-  if (type === "daily") {
-    const start = document.getElementById("startDate").value;
-    const end = document.getElementById("endDate").value;
-    if (!start || !end) { alert("Укажи даты начала и конца"); return; }
-    task.startDate = start;
-    task.endDate = end;
-  }
-
-  if (type === "once") task.date = viewDate;
-
-  if (type === "remind") {
-    const start = document.getElementById("remindStart").value;
-    if (!start) { alert("Укажи дату старта"); return; }
-    task.startDate = start;
-
-    if (remindType.value === "every") {
-      const every = Number(document.getElementById("remindEvery").value);
-      if (!every || every < 1) { alert("Укажи частоту (N дней)"); return; }
-      task.remindMode = "every";
-      task.every = every;
-    } else {
-      const days = Array.from(document.querySelectorAll("#weekdaysBlock input:checked")).map(ch => Number(ch.value));
-      if (days.length === 0) { alert("Выбери хотя бы один день недели"); return; }
-      task.remindMode = "weekdays";
-      task.weekdays = days;
-    }
-  }
-
-  const tasks = loadTasks();
-  tasks.push(task);
-  saveTasks(tasks);
-
-  document.getElementById("title").value = "";
-  toggleAddSection();
-  render();
-}
-
-function isTaskForDay(task, day) {
-  if (task.type === "once") return task.date === day;
-  if (task.type === "daily") return day >= task.startDate && day <= task.endDate;
-  if (task.type === "remind") return isReminderToday(task, day);
-  return false;
-}
-
-function isReminderToday(task, day) {
-  if (task.remindMode === "every") {
-    const start = new Date(task.startDate + "T00:00:00");
-    const current = new Date(day + "T00:00:00");
-    const diff = Math.floor((current - start) / (1000 * 60 * 60 * 24));
-    return diff >= 0 && diff % task.every === 0;
-  }
-  if (task.remindMode === "weekdays") {
-    const d = new Date(day + "T00:00:00");
-    const weekday = d.getDay();
-    return task.weekdays.includes(weekday);
-  }
-  return false;
-}
-
-function isCompleted(task, day) {
-  return task.completedDates.includes(day);
-}
-
-function toggleTask(id) {
-  const tasks = loadTasks();
-  const task = tasks.find(t => t.id === id);
-  if (!task) return;
-
-  if (isCompleted(task, viewDate)) {
-    task.completedDates = task.completedDates.filter(d => d !== viewDate);
-  } else {
-    task.completedDates.push(viewDate);
-  }
-
-  saveTasks(tasks);
-  render();
-}
-
-function deleteTask(id) {
-  const tasks = loadTasks().filter(t => t.id !== id);
-  saveTasks(tasks);
-  render();
-}
-
-function editTask(id) {
-  const tasks = loadTasks();
-  const task = tasks.find(t => t.id === id);
-  if (!task) return;
-
-  const newTitle = prompt("Новое название:", task.title);
-  if (newTitle !== null) task.title = newTitle.trim() || task.title;
-
-  if (task.type === "daily") {
-    const newStart = prompt("Новая дата начала (YYYY-MM-DD):", task.startDate);
-    const newEnd = prompt("Новая дата конца (YYYY-MM-DD):", task.endDate);
-    if (newStart) task.startDate = newStart;
-    if (newEnd) task.endDate = newEnd;
-  }
-
-  if (task.type === "remind") {
-    const newStart = prompt("Новая дата старта (YYYY-MM-DD):", task.startDate);
-    if (newStart) task.startDate = newStart;
-
-    if (task.remindMode === "every") {
-      const newEvery = prompt("Новая частота (N дней):", task.every);
-      if (newEvery) task.every = Number(newEvery);
-    } else {
-      const newDays = prompt("Дни недели (0-вс,1-пн,... через запятую):", task.weekdays.join(","));
-      if (newDays) task.weekdays = newDays.split(",").map(x => Number(x.trim()));
-    }
-  }
-
-  saveTasks(tasks);
-  render();
-}
-
-function toggleAllPeriods() {
-  const tasks = loadTasks();
-  const allVisible = localStorage.getItem("allDatesVisible") === "true";
-
-  tasks.forEach(t => {
-    if (t.type === "daily") t.showPeriod = !allVisible;
-  });
-
-  localStorage.setItem("allDatesVisible", !allVisible);
-  localStorage.setItem("datePeriodShownDate", getMskToday());
-  saveTasks(tasks);
-  render();
-}
-
-function calculateStreak(task, day) {
-  if (task.type !== "daily") return 0;
-  let streak = 0;
-  let d = day;
-
-  while (d >= task.startDate) {
-    if (!isCompleted(task, d)) break;
-    streak++;
-    d = prevDate(d);
-  }
-  return streak;
-}
-
-function prevDate(dateStr) {
-  const d = new Date(dateStr + "T00:00:00");
-  d.setDate(d.getDate() - 1);
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
-}
-
-function renderTask(task, day) {
-  const done = isCompleted(task, day);
-
-  const div = document.createElement("div");
-  div.className = "card" + (done ? " done" : "");
-
-  const badgeType = task.type === "daily" ? "daily" : task.type === "once" ? "once" : "remind";
-  const badgeText = task.type === "daily"
-    ? `Ежедневная`
-    : task.type === "once"
-      ? "Задача на день"
-      : "Напоминание";
-
-  let periodText = "";
-
-  if (task.type === "daily") {
-    periodText = `${formatDate(task.startDate)}–${formatDate(task.endDate)}`;
-  } else if (task.type === "remind") {
-    if (task.remindMode === "every") {
-      periodText = `Каждые ${task.every} дн.`;
-    } else {
-      const names = ["Вс","Пн","Вт","Ср","Чт","Пт","Сб"];
-      periodText = task.weekdays.map(d => names[d]).join(", ");
-    }
-  }
-
-  const streak = task.type === "daily" ? `· стрик ${calculateStreak(task, day)}` : "";
-
-  div.innerHTML = `
-    <div class="left">
-      <div class="title ${done ? "done" : ""}">${task.title}</div>
-      <div class="meta">
-        <span class="badge ${badgeType}">${badgeText}</span>
-        <span class="period">${periodText}</span>
-        ${streak ? `<span class="badge">${streak}</span>` : ""}
-      </div>
-    </div>
-    <div class="right">
-      <button class="btn check ${done ? "done" : ""}" onclick="toggleTask(${task.id})">✓</button>
-      <button class="btn edit" onclick="editTask(${task.id})">✎</button>
-      <button class="btn delete" onclick="deleteTask(${task.id})">🗑</button>
-    </div>
-  `;
-
-  if (task.type === "daily") {
-    if (task.showPeriod) div.querySelector(".period").style.display = "inline";
-  } else {
-    div.querySelector(".period").style.display = "inline";
-  }
-
-  return div;
-}
-
-function renderSectionHeader(section, title, total, done) {
-  const header = document.createElement("div");
-  header.className = "sectionHeader";
-
-  const left = document.createElement("div");
-  left.className = "left";
-
-  const h3 = document.createElement("h3");
-  h3.textContent = title;
-
-  const status = document.createElement("div");
-  status.className = "statusBox " + (done === total ? "green" : "red");
-  status.textContent = `${done}/${total} выполнено`;
-
-  left.appendChild(h3);
-  left.appendChild(status);
-
-  const toggle = document.createElement("button");
-  toggle.className = "toggle";
-  toggle.textContent = sectionsState[section] ? "Свернуть" : "Развернуть";
-  toggle.onclick = () => {
-    sectionsState[section] = !sectionsState[section];
-    saveSectionsState();
-    render();
+  let sectionsState = {
+    daily: true,
+    once: true,
+    remind: true
   };
 
-  header.appendChild(left);
-  header.appendChild(toggle);
-
-  return header;
-}
-
-function renderSection(section, title, tasks) {
-  const total = tasks.length;
-  const done = tasks.filter(t => isCompleted(t, viewDate)).length;
-
-  const box = document.createElement("div");
-  box.className = "sectionBox";
-
-  box.appendChild(renderSectionHeader(section, title, total, done));
-
-  const content = document.createElement("div");
-  content.className = "sectionContent";
-  content.style.display = sectionsState[section] ? "block" : "none";
-
-  tasks.forEach(t => content.appendChild(renderTask(t, viewDate)));
-  box.appendChild(content);
-
-  return box;
-}
-
-function render() {
-  loadSectionsState();
-
-  dailySection.innerHTML = "";
-  onceSection.innerHTML = "";
-  remindSection.innerHTML = "";
-
-  viewDateDisplay.textContent = `Дата: ${formatDate(viewDate)}`;
-
-  const tasks = loadTasks();
-  const dailyTasks = tasks.filter(t => t.type === "daily" && isTaskForDay(t, viewDate));
-  const onceTasks = tasks.filter(t => t.type === "once" && isTaskForDay(t, viewDate));
-  const remindTasks = tasks.filter(t => t.type === "remind" && isTaskForDay(t, viewDate));
-
-  const total = dailyTasks.length + onceTasks.length + remindTasks.length;
-  const done = tasks.filter(t => isTaskForDay(t, viewDate) && isCompleted(t, viewDate)).length;
-  const percent = total === 0 ? 0 : Math.round((done / total) * 100);
-
-  const allVisible = localStorage.getItem("allDatesVisible") === "true";
-  toggleDatesBtn.textContent = allVisible ? "📅 Скрыть даты" : "📅 Показать даты";
-
-  statsDiv.innerHTML = `
-    <b>Статистика на день:</b><br>
-    Всего задач: ${total} · Выполнено: ${done} · Прогресс: ${percent}%
-  `;
-
-  if (dailyTasks.length > 0) dailySection.appendChild(renderSection("daily", "Ежедневные:", dailyTasks));
-  if (onceTasks.length > 0) onceSection.appendChild(renderSection("once", "Задачи на день:", onceTasks));
-  if (remindTasks.length > 0) remindSection.appendChild(renderSection("remind", "Напоминания:", remindTasks));
-
-  if (total === 0) {
-    dailySection.innerHTML = "<p>На этот день задач нет 🎉</p>";
+  function toggleAddSection() {
+    if (addSection.style.display === "block") {
+      addSection.style.display = "none";
+      accordionArrow.textContent = "+";
+    } else {
+      addSection.style.display = "block";
+      accordionArrow.textContent = "−";
+    }
   }
-}
 
-function changeDay(delta) {
-  const d = new Date(viewDate + "T00:00:00");
-  d.setDate(d.getDate() + delta);
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  viewDate = `${y}-${m}-${day}`;
+  toggleAddSection();
+
+  typeSelect.addEventListener("change", () => {
+    datesDiv.style.display = typeSelect.value === "daily" ? "block" : "none";
+    remindDiv.style.display = typeSelect.value === "remind" ? "block" : "none";
+  });
+
+  remindType.addEventListener("change", () => {
+    const type = remindType.value;
+    remindEveryBlock.style.display = type === "every" ? "block" : "none";
+    weekdaysBlock.style.display = type === "weekdays" ? "block" : "none";
+
+    if (type === "weekdays") {
+      document.getElementById("remindStart").value = getMskToday();
+    }
+  });
+
+  function getMskToday() {
+    const formatter = new Intl.DateTimeFormat("ru-RU", {
+      timeZone: "Europe/Moscow",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    });
+
+    const parts = formatter.formatToParts(new Date());
+    const day = parts.find(p => p.type === "day").value;
+    const month = parts.find(p => p.type === "month").value;
+    const year = parts.find(p => p.type === "year").value;
+
+    return `${year}-${month}-${day}`;
+  }
+
+  function formatDate(dateStr) {
+    const [y, m, d] = dateStr.split("-");
+    return `${d}.${m}.${y}`;
+  }
+
+  function loadTasks() {
+    return JSON.parse(localStorage.getItem("tasks") || "[]");
+  }
+
+  function saveTasks(tasks) {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
+
+  function loadSectionsState() {
+    const saved = localStorage.getItem("sectionsState");
+    if (saved) sectionsState = JSON.parse(saved);
+  }
+
+  function saveSectionsState() {
+    localStorage.setItem("sectionsState", JSON.stringify(sectionsState));
+  }
+
+  function resetShowPeriodIfNewDay() {
+    const lastShownDate = localStorage.getItem("datePeriodShownDate");
+    const today = getMskToday();
+
+    if (lastShownDate !== today) {
+      const tasks = loadTasks();
+      tasks.forEach(t => t.showPeriod = false);
+      saveTasks(tasks);
+      localStorage.setItem("datePeriodShownDate", today);
+      localStorage.setItem("allDatesVisible", "false");
+    }
+  }
 
   resetShowPeriodIfNewDay();
-  render();
-}
 
-function goToday() {
-  viewDate = getMskToday();
-  resetShowPeriodIfNewDay();
-  render();
-}
+  function addTask() {
+    const title = document.getElementById("title").value.trim();
+    const type = typeSelect.value;
 
-let lastMskDate = localStorage.getItem("lastMskDate") || getMskToday();
+    if (!title) return;
 
-function checkMskDateChange() {
-  const currentMskDate = getMskToday();
-  if (currentMskDate !== lastMskDate) {
-    lastMskDate = currentMskDate;
-    localStorage.setItem("lastMskDate", currentMskDate);
-    viewDate = currentMskDate;
+    const task = {
+      id: Date.now(),
+      title,
+      type,
+      completedDates: [],
+      showPeriod: false
+    };
+
+    if (type === "daily") {
+      const start = document.getElementById("startDate").value;
+      const end = document.getElementById("endDate").value;
+      if (!start || !end) {
+        alert("Укажи даты начала и конца");
+        return;
+      }
+      task.startDate = start;
+      task.endDate = end;
+    }
+
+    if (type === "once") {
+      task.date = viewDate;
+    }
+
+    if (type === "remind") {
+      const start = document.getElementById("remindStart").value;
+      if (!start) {
+        alert("Укажи дату старта");
+        return;
+      }
+      task.startDate = start;
+
+      if (remindType.value === "every") {
+        const every = Number(document.getElementById("remindEvery").value);
+        if (!every || every < 1) {
+          alert("Укажи частоту (N дней)");
+          return;
+        }
+        task.remindMode = "every";
+        task.every = every;
+      } else {
+        const days = Array.from(document.querySelectorAll("#weekdaysBlock input:checked"))
+          .map(ch => Number(ch.value));
+        if (days.length === 0) {
+          alert("Выбери хотя бы один день недели");
+          return;
+        }
+        task.remindMode = "weekdays";
+        task.weekdays = days;
+      }
+    }
+
+    const tasks = loadTasks();
+    tasks.push(task);
+    saveTasks(tasks);
+
+    document.getElementById("title").value = "";
+    toggleAddSection();
+    render();
+  }
+
+  function isTaskForDay(task, day) {
+    if (task.type === "once") return task.date === day;
+    if (task.type === "daily") return day >= task.startDate && day <= task.endDate;
+    if (task.type === "remind") return isReminderToday(task, day);
+    return false;
+  }
+
+  function isReminderToday(task, day) {
+    if (task.remindMode === "every") {
+      const start = new Date(task.startDate + "T00:00:00");
+      const current = new Date(day + "T00:00:00");
+      const diff = Math.floor((current - start) / (1000 * 60 * 60 * 24));
+      return diff >= 0 && diff % task.every === 0;
+    }
+
+    if (task.remindMode === "weekdays") {
+      const d = new Date(day + "T00:00:00");
+      const weekday = d.getDay();
+      return task.weekdays.includes(weekday);
+    }
+
+    return false;
+  }
+
+  function isCompleted(task, day) {
+    return task.completedDates.includes(day);
+  }
+
+  function toggleTask(id) {
+    const tasks = loadTasks();
+    const task = tasks.find(t => t.id === id);
+    if (!task) return;
+
+    if (isCompleted(task, viewDate)) {
+      task.completedDates = task.completedDates.filter(d => d !== viewDate);
+    } else {
+      task.completedDates.push(viewDate);
+    }
+
+    saveTasks(tasks);
+    render();
+  }
+
+  function deleteTask(id) {
+    const tasks = loadTasks().filter(t => t.id !== id);
+    saveTasks(tasks);
+    render();
+  }
+
+  function editTask(id) {
+    const tasks = loadTasks();
+    const task = tasks.find(t => t.id === id);
+    if (!task) return;
+
+    const newTitle = prompt("Новое название:", task.title);
+    if (newTitle !== null) task.title = newTitle.trim() || task.title;
+
+    if (task.type === "daily") {
+      const newStart = prompt("Новая дата начала (YYYY-MM-DD):", task.startDate);
+      const newEnd = prompt("Новая дата конца (YYYY-MM-DD):", task.endDate);
+      if (newStart) task.startDate = newStart;
+      if (newEnd) task.endDate = newEnd;
+    }
+
+    if (task.type === "remind") {
+      const newStart = prompt("Новая дата старта (YYYY-MM-DD):", task.startDate);
+      if (newStart) task.startDate = newStart;
+
+      if (task.remindMode === "every") {
+        const newEvery = prompt("Новая частота (N дней):", task.every);
+        if (newEvery) task.every = Number(newEvery);
+      } else {
+        const newDays = prompt("Дни недели (0-вс,1-пн,... через запятую):", task.weekdays.join(","));
+        if (newDays) task.weekdays = newDays.split(",").map(x => Number(x.trim()));
+      }
+    }
+
+    saveTasks(tasks);
+    render();
+  }
+
+  function toggleAllPeriods() {
+    const tasks = loadTasks();
+    const allVisible = localStorage.getItem("allDatesVisible") === "true";
+
+    tasks.forEach(t => {
+      if (t.type === "daily") t.showPeriod = !allVisible;
+    });
+
+    localStorage.setItem("allDatesVisible", !allVisible);
+    localStorage.setItem("datePeriodShownDate", getMskToday());
+
+    saveTasks(tasks);
+    render();
+  }
+
+  function calculateStreak(task, day) {
+    if (task.type !== "daily") return 0;
+    let streak = 0;
+    let d = day;
+
+    while (d >= task.startDate) {
+      if (!isCompleted(task, d)) break;
+      streak++;
+      d = prevDate(d);
+    }
+    return streak;
+  }
+
+  function prevDate(dateStr) {
+    const d = new Date(dateStr + "T00:00:00");
+    d.setDate(d.getDate() - 1);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  }
+
+  function renderTask(task, day) {
+    const done = isCompleted(task, day);
+
+    const div = document.createElement("div");
+    div.className = "card" + (done ? " done" : "");
+
+    const badgeType = task.type === "daily" ? "daily" : task.type === "once" ? "once" : "remind";
+    const badgeText = task.type === "daily"
+      ? `Ежедневная`
+      : task.type === "once"
+        ? "Задача на день"
+        : "Напоминание";
+
+    let periodText = "";
+
+    if (task.type === "daily") {
+      periodText = `${formatDate(task.startDate)}–${formatDate(task.endDate)}`;
+    } else if (task.type === "remind") {
+      if (task.remindMode === "every") {
+        periodText = `Каждые ${task.every} дн.`;
+      } else {
+        const names = ["Вс","Пн","Вт","Ср","Чт","Пт","Сб"];
+        periodText = task.weekdays.map(d => names[d]).join(", ");
+      }
+    }
+
+    const streak = task.type === "daily" ? `· стрик ${calculateStreak(task, day)}` : "";
+
+    div.innerHTML = `
+      <div class="left">
+        <div class="title ${done ? "done" : ""}">${task.title}</div>
+        <div class="meta">
+          <span class="badge ${badgeType}">${badgeText}</span>
+          <span class="period">${periodText}</span>
+          ${streak ? `<span class="badge">${streak}</span>` : ""}
+        </div>
+      </div>
+      <div class="right">
+        <button class="btn check ${done ? "done" : ""}" onclick="toggleTask(${task.id})">✓</button>
+        <button class="btn edit" onclick="editTask(${task.id})">✎</button>
+        <button class="btn delete" onclick="deleteTask(${task.id})">🗑</button>
+      </div>
+    `;
+
+    if (task.type === "daily") {
+      if (task.showPeriod) div.querySelector(".period").style.display = "inline";
+    } else {
+      div.querySelector(".period").style.display = "inline";
+    }
+
+    return div;
+  }
+
+  function renderSectionHeader(section, title, total, done) {
+    const header = document.createElement("div");
+    header.className = "sectionHeader";
+
+    const left = document.createElement("div");
+    left.className = "left";
+
+    const h3 = document.createElement("h3");
+    h3.textContent = title;
+
+    const status = document.createElement("div");
+    status.className = "statusBox " + (done === total ? "green" : "red");
+    status.textContent = `${done}/${total} выполнено`;
+
+    left.appendChild(h3);
+    left.appendChild(status);
+
+    const toggle = document.createElement("button");
+    toggle.className = "toggle";
+    toggle.textContent = sectionsState[section] ? "Развернуть" : "Свернуть";
+    toggle.onclick = () => {
+      sectionsState[section] = !sectionsState[section];
+      saveSectionsState();
+      render();
+    };
+
+    header.appendChild(left);
+    header.appendChild(toggle);
+
+    return header;
+  }
+
+  function renderSection(section, title, tasks) {
+    const total = tasks.length;
+    const done = tasks.filter(t => isCompleted(t, viewDate)).length;
+
+    const box = document.createElement("div");
+    box.className = "sectionBox";
+
+    box.appendChild(renderSectionHeader(section, title, total, done));
+
+    const content = document.createElement("div");
+    content.className = "sectionContent";
+    content.style.display = sectionsState[section] ? "none" : "block";
+
+    tasks.forEach(t => content.appendChild(renderTask(t, viewDate)));
+    box.appendChild(content);
+
+    return box;
+  }
+
+  function render() {
+    loadSectionsState();
+
+    dailySection.innerHTML = "";
+    onceSection.innerHTML = "";
+    remindSection.innerHTML = "";
+
+    viewDateDisplay.textContent = `Дата: ${formatDate(viewDate)}`;
+
+    const tasks = loadTasks();
+    const dailyTasks = tasks.filter(t => t.type === "daily" && isTaskForDay(t, viewDate));
+    const onceTasks = tasks.filter(t => t.type === "once" && isTaskForDay(t, viewDate));
+    const remindTasks = tasks.filter(t => t.type === "remind" && isTaskForDay(t, viewDate));
+
+    const total = dailyTasks.length + onceTasks.length + remindTasks.length;
+    const done = tasks.filter(t => isTaskForDay(t, viewDate) && isCompleted(t, viewDate)).length;
+    const percent = total === 0 ? 0 : Math.round((done / total) * 100);
+
+    const allVisible = localStorage.getItem("allDatesVisible") === "true";
+    toggleDatesBtn.textContent = allVisible ? "📅 Скрыть даты" : "📅 Показать даты";
+
+    statsDiv.innerHTML = `
+      <b>Статистика на день:</b><br>
+      Всего задач: ${total} · Выполнено: ${done} · Прогресс: ${percent}%
+    `;
+
+    if (dailyTasks.length > 0) dailySection.appendChild(renderSection("daily", "Ежедневные:", dailyTasks));
+    if (onceTasks.length > 0) onceSection.appendChild(renderSection("once", "Задачи на день:", onceTasks));
+    if (remindTasks.length > 0) remindSection.appendChild(renderSection("remind", "Напоминания:", remindTasks));
+
+    if (total === 0) {
+      dailySection.innerHTML = "<p style='text-align:center; margin-top: 12px;'>На этот день задач нет 🎉</p>";
+    }
+  }
+
+  function changeDay(delta) {
+    const d = new Date(viewDate + "T00:00:00");
+    d.setDate(d.getDate() + delta);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    viewDate = `${y}-${m}-${day}`;
+
     resetShowPeriodIfNewDay();
     render();
   }
-}
 
-setInterval(checkMskDateChange, 30000);
-render();
+  function goToday() {
+    viewDate = getMskToday();
+    resetShowPeriodIfNewDay();
+    render();
+  }
+
+  let lastMskDate = localStorage.getItem("lastMskDate") || getMskToday();
+
+  function checkMskDateChange() {
+    const currentMskDate = getMskToday();
+    if (currentMskDate !== lastMskDate) {
+      lastMskDate = currentMskDate;
+      localStorage.setItem("lastMskDate", currentMskDate);
+      viewDate = currentMskDate;
+      resetShowPeriodIfNewDay();
+      render();
+    }
+  }
+
+  setInterval(checkMskDateChange, 30000);
+
+  render();
 </script>
 
 <script>
