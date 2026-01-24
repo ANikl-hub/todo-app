@@ -4,69 +4,270 @@
   <meta charset="UTF-8">
   <title>Дела</title>
 
+  <!-- Мобильный режим -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#3bb54a">
 
   <style>
-    body { font-family: Arial, sans-serif; background: #f2f2f2; padding: 20px; max-width: 720px; margin: auto; }
-    h1, h2 { margin-bottom: 10px; }
-    .nav { display: flex; gap: 10px; margin-bottom: 10px; }
-    .nav button { padding: 8px 14px; cursor: pointer; border: 1px solid #ccc; background: #fff; border-radius: 8px; transition: transform .15s ease; flex: 1 1 0; }
+    :root {
+      --bg: #f2f2f2;
+      --card: #fff;
+      --border: #d6d6d6;
+      --text: #222;
+      --muted: #666;
+      --green: #3bb54a;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      padding: 14px;
+      max-width: 720px;
+      margin: auto;
+      color: var(--text);
+    }
+
+    h1 { margin: 0 0 10px; font-size: 22px; }
+
+    .nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .nav button {
+      padding: 10px 10px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 12px;
+      transition: transform .15s ease;
+      flex: 1 1 0;
+      font-size: 14px;
+    }
+
     .nav button:hover { transform: translateY(-1px); }
-    .stats { margin-bottom: 20px; background: #fff; padding: 12px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; justify-content: space-between; align-items: center; }
-    .stats b { font-size: 14px; }
-    .sectionBox { background: #fff; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 14px; overflow: hidden; }
-    .sectionHeader { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; border-bottom: 1px solid #eee; background: #fafafa; }
-    .sectionHeader .left { display: flex; align-items: center; gap: 12px; }
-    .sectionHeader h3 { margin: 0; font-size: 16px; }
-    .sectionHeader .statusBox { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 12px; border: 1px solid #ccc; background: #fff; font-size: 12px; }
+
+    .stats {
+      margin-bottom: 14px;
+      background: var(--card);
+      padding: 12px;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .stats b { font-size: 13px; }
+
+    .sectionBox {
+      background: var(--card);
+      border-radius: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+
+    .sectionHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px;
+      border-bottom: 1px solid #eee;
+      background: #fafafa;
+    }
+
+    .sectionHeader .left { display: flex; align-items: center; gap: 10px; }
+    .sectionHeader h3 { margin: 0; font-size: 15px; }
+    .statusBox {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      font-size: 12px;
+    }
+
     .statusBox.green { background: #e4f7e9; border-color: #b7e4c9; }
     .statusBox.red { background: #ffe5e5; border-color: #f2c6c6; }
-    .sectionHeader .toggle { cursor: pointer; font-size: 14px; padding: 6px 10px; border-radius: 10px; border: 1px solid #ccc; background: #fff; }
+
+    .sectionHeader .toggle {
+      cursor: pointer;
+      font-size: 14px;
+      padding: 6px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+    }
+
     .sectionContent { padding: 12px 14px; }
-    .card { background: #fff; padding: 12px 12px; margin-bottom: 10px; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); display: flex; justify-content: space-between; align-items: center; transition: transform .15s ease, box-shadow .15s ease; }
+
+    .card {
+      background: var(--card);
+      padding: 12px 12px;
+      margin-bottom: 10px;
+      border-radius: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: transform .15s ease, box-shadow .15s ease;
+      gap: 10px;
+    }
+
     .card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+
     .card.done { background: #f6fff6; opacity: 0.9; }
+
     .left { display: flex; flex-direction: column; gap: 6px; max-width: 70%; }
-    .title { font-size: 16px; font-weight: 600; word-break: break-word; }
-    .title.done { text-decoration: line-through; color: #666; }
-    .meta { font-size: 12px; color: #777; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-    .badge { font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 1px solid #ccc; background: #fafafa; color: #555; }
+
+    .title { font-size: 15px; font-weight: 600; word-break: break-word; }
+    .title.done { text-decoration: line-through; color: var(--muted); }
+
+    .meta {
+      font-size: 12px;
+      color: #777;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .badge {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fafafa;
+      color: #555;
+    }
+
     .badge.daily { border-color: #4caf50; background: #e8f5e9; color: #2e7d32; }
     .badge.once { border-color: #2196f3; background: #e3f2fd; color: #1565c0; }
     .badge.remind { border-color: #ff9800; background: #fff3e0; color: #e65100; }
+
     .period { display: none; font-size: 12px; color: #555; margin-left: 4px; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; letter-spacing: 0.2px; font-weight: 500; }
-    .right { display: flex; align-items: center; gap: 8px; }
-    .btn { border: none; cursor: pointer; padding: 8px 10px; border-radius: 10px; font-size: 14px; transition: transform .15s ease; background: #fff; border: 1px solid #ccc; }
+
+    .right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn {
+      border: none;
+      cursor: pointer;
+      padding: 10px 10px;
+      border-radius: 12px;
+      font-size: 14px;
+      transition: transform .15s ease;
+      background: var(--card);
+      border: 1px solid var(--border);
+    }
+
     .btn:hover { transform: translateY(-1px); }
-    .check { width: 38px; height: 38px; border-radius: 50%; border: 1px solid #ccc; background: #fff; font-size: 16px; font-weight: 700; }
-    .check.done { background: #4caf50; border-color: #4caf50; color: white; }
-    .edit, .delete, .info { background: #fff; border: 1px solid #ccc; }
+
+    .check {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--card);
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .check.done { background: var(--green); border-color: var(--green); color: white; }
+
+    .edit, .delete, .info { background: var(--card); border: 1px solid var(--border); }
+
     .form-row { display: flex; gap: 10px; flex-wrap: wrap; }
     .form-row > * { flex: 1 1 180px; min-width: 180px; }
-    input, select { padding: 10px; width: 100%; margin-bottom: 8px; border-radius: 10px; border: 1px solid #ccc; box-sizing: border-box; }
-    #addBtn { padding: 10px 14px; cursor: pointer; border: none; background: #3bb54a; color: white; border-radius: 14px; font-weight: 700; font-size: 14px; width: auto; transition: transform .15s ease, box-shadow .15s ease; display: inline-flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-    #addBtn:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(0,0,0,0.2); }
+
+    input, select {
+      padding: 12px;
+      width: 100%;
+      margin-bottom: 8px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+
+    #addBtn {
+      padding: 12px 14px;
+      cursor: pointer;
+      border: none;
+      background: var(--green);
+      color: white;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 14px;
+      width: 100%;
+      transition: transform .15s ease, box-shadow .15s ease;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    #addBtn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+    }
+
     .weekdays { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
     .weekdays label { display: flex; align-items: center; gap: 4px; font-size: 12px; cursor: pointer; }
-    .accordion { margin-top: 18px; }
-    .accordion button { width: 100%; text-align: left; padding: 12px 14px; border-radius: 12px; border: 1px solid #ccc; background: #fff; cursor: pointer; font-size: 16px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
-    .accordionContent { display: none; margin-top: 10px; padding: 14px; border-radius: 12px; border: 1px solid #ccc; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    .accordion { margin-top: 16px; }
+    .accordion button {
+      width: 100%;
+      text-align: left;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .accordionContent {
+      display: none;
+      margin-top: 10px;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
     .accordionContent input, .accordionContent select { width: 100%; box-sizing: border-box; }
     .accordionContent label { display: block; margin-top: 10px; font-size: 13px; color: #333; }
+
     @media (max-width: 600px) {
-      body { padding: 12px; }
+      body { padding: 10px; }
+      h1 { font-size: 20px; }
       .nav { gap: 8px; flex-direction: column; }
-      .nav button { width: 100%; text-align: center; }
+      .nav button { width: 100%; }
       .stats { padding: 10px; flex-direction: column; align-items: flex-start; gap: 8px; }
       .sectionHeader { flex-direction: column; align-items: flex-start; gap: 8px; }
-      .card { padding: 10px; flex-direction: column; align-items: flex-start; gap: 10px; }
+      .card { flex-direction: column; align-items: flex-start; gap: 10px; padding: 12px; }
       .right { width: 100%; justify-content: flex-start; gap: 8px; }
       .left { max-width: 100%; }
       .form-row { flex-direction: column; }
       .form-row > * { min-width: 100%; }
-      #addBtn { width: 100%; justify-content: center; }
     }
   </style>
 </head>
@@ -178,7 +379,6 @@ const addSection = document.getElementById("addSection");
 const accordionArrow = document.getElementById("accordionArrow");
 
 let viewDate = getMskToday();
-
 let sectionsState = { daily: true, once: true, remind: true };
 
 function toggleAddSection() {
@@ -190,7 +390,6 @@ function toggleAddSection() {
     accordionArrow.textContent = "−";
   }
 }
-
 toggleAddSection();
 
 typeSelect.addEventListener("change", () => {
@@ -202,10 +401,7 @@ remindType.addEventListener("change", () => {
   const type = remindType.value;
   remindEveryBlock.style.display = type === "every" ? "block" : "none";
   weekdaysBlock.style.display = type === "weekdays" ? "block" : "none";
-
-  if (type === "weekdays") {
-    document.getElementById("remindStart").value = getMskToday();
-  }
+  if (type === "weekdays") document.getElementById("remindStart").value = getMskToday();
 });
 
 function getMskToday() {
@@ -242,7 +438,6 @@ function saveSectionsState() {
 function resetShowPeriodIfNewDay() {
   const lastShownDate = localStorage.getItem("datePeriodShownDate");
   const today = getMskToday();
-
   if (lastShownDate !== today) {
     const tasks = loadTasks();
     tasks.forEach(t => t.showPeriod = false);
@@ -251,61 +446,38 @@ function resetShowPeriodIfNewDay() {
     localStorage.setItem("allDatesVisible", "false");
   }
 }
-
 resetShowPeriodIfNewDay();
 
 function addTask() {
   const title = document.getElementById("title").value.trim();
   const type = typeSelect.value;
-
   if (!title) return;
 
-  const task = {
-    id: Date.now(),
-    title,
-    type,
-    completedDates: [],
-    showPeriod: false
-  };
+  const task = { id: Date.now(), title, type, completedDates: [], showPeriod: false };
 
   if (type === "daily") {
     const start = document.getElementById("startDate").value;
     const end = document.getElementById("endDate").value;
-    if (!start || !end) {
-      alert("Укажи даты начала и конца");
-      return;
-    }
+    if (!start || !end) { alert("Укажи даты начала и конца"); return; }
     task.startDate = start;
     task.endDate = end;
   }
 
-  if (type === "once") {
-    task.date = viewDate;
-  }
+  if (type === "once") task.date = viewDate;
 
   if (type === "remind") {
     const start = document.getElementById("remindStart").value;
-    if (!start) {
-      alert("Укажи дату старта");
-      return;
-    }
+    if (!start) { alert("Укажи дату старта"); return; }
     task.startDate = start;
 
     if (remindType.value === "every") {
       const every = Number(document.getElementById("remindEvery").value);
-      if (!every || every < 1) {
-        alert("Укажи частоту (N дней)");
-        return;
-      }
+      if (!every || every < 1) { alert("Укажи частоту (N дней)"); return; }
       task.remindMode = "every";
       task.every = every;
     } else {
-      const days = Array.from(document.querySelectorAll("#weekdaysBlock input:checked"))
-        .map(ch => Number(ch.value));
-      if (days.length === 0) {
-        alert("Выбери хотя бы один день недели");
-        return;
-      }
+      const days = Array.from(document.querySelectorAll("#weekdaysBlock input:checked")).map(ch => Number(ch.value));
+      if (days.length === 0) { alert("Выбери хотя бы один день недели"); return; }
       task.remindMode = "weekdays";
       task.weekdays = days;
     }
@@ -334,13 +506,11 @@ function isReminderToday(task, day) {
     const diff = Math.floor((current - start) / (1000 * 60 * 60 * 24));
     return diff >= 0 && diff % task.every === 0;
   }
-
   if (task.remindMode === "weekdays") {
     const d = new Date(day + "T00:00:00");
     const weekday = d.getDay();
     return task.weekdays.includes(weekday);
   }
-
   return false;
 }
 
@@ -411,7 +581,6 @@ function toggleAllPeriods() {
 
   localStorage.setItem("allDatesVisible", !allVisible);
   localStorage.setItem("datePeriodShownDate", getMskToday());
-
   saveTasks(tasks);
   render();
 }
@@ -609,7 +778,6 @@ function checkMskDateChange() {
 }
 
 setInterval(checkMskDateChange, 30000);
-
 render();
 </script>
 
