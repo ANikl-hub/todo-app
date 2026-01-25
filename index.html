@@ -24,6 +24,7 @@
       background: var(--bg);
       padding: 12px;
       margin: 0;
+      max-width: 100%;
       box-sizing: border-box;
     }
 
@@ -41,8 +42,6 @@
       flex-wrap: nowrap;
       justify-content: center;
       align-items: center;
-      overflow-x: auto;
-      padding-bottom: 6px;
     }
 
     .nav button {
@@ -56,7 +55,7 @@
       font-weight: 800;
       transition: transform .15s ease;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      min-width: 90px;
+      min-width: 0;
     }
 
     .nav button:hover{
@@ -73,7 +72,6 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
       font-size: 14px;
       margin-left: 8px;
-      white-space: nowrap;
     }
 
     #datePicker{
@@ -268,7 +266,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      flex-wrap: nowrap;
+      flex-wrap: wrap;
       justify-content: flex-end;
     }
 
@@ -288,24 +286,13 @@
       color: #fff;
     }
 
-    /* === Иконки редактирования/удаления (строгие) === */
-    .icon-btn{
-      width: 32px;
-      height: 32px;
-      border: 1px solid var(--border);
+    .edit, .delete{
       background: var(--card);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      padding: 0;
-    }
-
-    .icon-btn svg{
-      width: 16px;
-      height: 16px;
-      stroke: #333;
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 800;
     }
 
     .form-row{
@@ -329,28 +316,25 @@
       font-size: 14px;
     }
 
-    /* ====== Твоя рамка 350x100, но адаптивная ====== */
+    /* ====== 350x50 рамка ====== */
     .form-row--boxed{
       width: 350px;
-      max-width: 90%;
-      height: 100px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 10px;
-      box-sizing: border-box;
-      background: #fff;
+      height: 50px;
+      max-width: 100%;
+      margin: 0 auto;
+      display: flex;
       align-items: center;
-    }
-    .form-row--boxed input,
-    .form-row--boxed select{
-      height: 40px;
-      border-radius: 12px;
+      gap: 8px;
     }
 
-    /* ====== Кнопка 325x24 адаптивная ====== */
+    .form-row--boxed input,
+    .form-row--boxed select{
+      padding: 8px;
+      font-size: 13px;
+    }
+
     #addBtn{
       width: 325px;
-      max-width: 90%;
       height: 24px;
       padding: 0;
       font-size: 14px;
@@ -359,6 +343,9 @@
       background: var(--card);
       cursor: pointer;
       margin-top: 10px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .weekdays{
@@ -396,7 +383,7 @@
     }
 
     .accordionContent{
-      display: none;
+      display: none; /* ВСЕГДА свернута */
       margin-top: 10px;
       padding: 14px;
       border-radius: 14px;
@@ -412,8 +399,10 @@
       color: #333;
     }
 
-    @media (max-width: 420px){
-      h1{ font-size: 22px; }
+    @media (max-width: 500px){
+      body{
+        padding: 10px;
+      }
 
       .nav button{
         font-size: 13px;
@@ -436,7 +425,7 @@
 
       .right{
         width: 100%;
-        justify-content: flex-end;
+        justify-content: flex-start;
       }
 
       .form-row{
@@ -448,7 +437,8 @@
       }
 
       #addBtn{
-        font-size: 14px;
+        width: 100%;
+        font-size: 16px;
       }
     }
   </style>
@@ -495,7 +485,7 @@
   </button>
 
   <div class="accordionContent" id="addSection">
-    <div class="form-row form-row--boxed">
+    <div class="form-row--boxed">
       <input id="title" placeholder="Название дела">
       <select id="type">
         <option value="once">Внутридневная</option>
@@ -596,8 +586,8 @@ function toggleAddSection() {
   }
 }
 
-/* ❌ УБРАНО: toggleAddSection() при загрузке
-   Теперь вкладка "Добавить задачу" всегда свернута */
+// ❌ Важно: вкладка "Добавить задачу" всегда свернута
+// toggleAddSection() при загрузке не вызываем
 
 typeSelect.addEventListener("change", () => {
   datesDiv.style.display = typeSelect.value === "daily" ? "block" : "none";
@@ -900,16 +890,8 @@ function renderTask(task, day) {
     </div>
     <div class="right">
       <button class="btn check ${done ? "done" : ""}" onclick="toggleTask(${task.id})">✓</button>
-      <button class="icon-btn" onclick="editTask(${task.id})">
-        <svg viewBox="0 0 24 24" fill="none">
-          <path d="M4 20h4l10-10-4-4L4 16v4z" stroke-width="2"/>
-        </svg>
-      </button>
-      <button class="icon-btn" onclick="deleteTask(${task.id})">
-        <svg viewBox="0 0 24 24" fill="none">
-          <path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14" stroke-width="2"/>
-        </svg>
-      </button>
+      <button class="btn edit" onclick="editTask(${task.id})">✎</button>
+      <button class="btn delete" onclick="deleteTask(${task.id})">🗑</button>
     </div>
   `;
 
