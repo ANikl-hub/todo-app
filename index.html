@@ -5,7 +5,7 @@
   <title>Дела</title>
 
   <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#3bb54a">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -1051,7 +1051,7 @@ render();
 
 <script>
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js')
+    navigator.serviceWorker.register('./service-worker.js')
       .then(() => console.log('SW registered'))
       .catch(err => console.error('SW failed', err));
   }
