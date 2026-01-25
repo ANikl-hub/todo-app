@@ -1,20 +1,49 @@
-const CACHE_NAME = "todo-app-v1";
-const urlsToCache = [
-  "./",
-  "./index.html",
-  "./manifest.json",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png"
+const CACHE_NAME = 'todo-cache-v1';
+
+const FILES_TO_CACHE = [
+  '/manifest.json',
+  '/icon-192.png',
+  '/icon-512.png'
 ];
 
-self.addEventListener("install", (event) => {
+// Установка SW
+self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll(FILES_TO_CACHE);
+    })
   );
+  self.skipWaiting();
 });
 
-self.addEventListener("fetch", (event) => {
+// Активация SW
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(keys => {
+      return Promise.all(
+        keys.map(key => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
+      );
+    })
+  );
+  self.clients.claim();
+});
+
+// Fetch — НЕ кэшируем HTML
+self.addEventListener('fetch', event => {
+
+  // НЕ трогаем навигационные запросы (HTML)
+  if (event.request.mode === 'navigate') {
+    return;
+  }
+
+  // Для всего остального — cache first
   event.respondWith(
-    caches.match(event.request).then((response) => response || fetch(event.request))
+    caches.match(event.request).then(cached => {
+      return cached || fetch(event.request);
+    })
   );
 });
