@@ -24,7 +24,6 @@
       background: var(--bg);
       padding: 12px;
       margin: 0;
-      max-width: 100%;
       box-sizing: border-box;
     }
 
@@ -42,6 +41,8 @@
       flex-wrap: nowrap;
       justify-content: center;
       align-items: center;
+      overflow-x: auto;
+      padding-bottom: 6px;
     }
 
     .nav button {
@@ -55,7 +56,7 @@
       font-weight: 800;
       transition: transform .15s ease;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      min-width: 0;
+      min-width: 90px;
     }
 
     .nav button:hover{
@@ -72,6 +73,7 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
       font-size: 14px;
       margin-left: 8px;
+      white-space: nowrap;
     }
 
     #datePicker{
@@ -266,7 +268,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       justify-content: flex-end;
     }
 
@@ -327,9 +329,10 @@
       font-size: 14px;
     }
 
-    /* ====== Твоя рамка 350x100 ====== */
+    /* ====== Твоя рамка 350x100, но адаптивная ====== */
     .form-row--boxed{
       width: 350px;
+      max-width: 90%;
       height: 100px;
       border: 1px solid var(--border);
       border-radius: 14px;
@@ -344,9 +347,10 @@
       border-radius: 12px;
     }
 
-    /* ====== Кнопка 325x24 ====== */
+    /* ====== Кнопка 325x24 адаптивная ====== */
     #addBtn{
       width: 325px;
+      max-width: 90%;
       height: 24px;
       padding: 0;
       font-size: 14px;
@@ -408,10 +412,8 @@
       color: #333;
     }
 
-    @media (max-width: 500px){
-      body{
-        padding: 10px;
-      }
+    @media (max-width: 420px){
+      h1{ font-size: 22px; }
 
       .nav button{
         font-size: 13px;
@@ -434,7 +436,7 @@
 
       .right{
         width: 100%;
-        justify-content: flex-start;
+        justify-content: flex-end;
       }
 
       .form-row{
@@ -446,7 +448,7 @@
       }
 
       #addBtn{
-        font-size: 18px;
+        font-size: 14px;
       }
     }
   </style>
