@@ -11,13 +11,14 @@
 
   <style>
     :root{
-      --bg: #f2f2f2;
-      --card: #fff;
-      --border: #d8d8d8;
-      --text: #333;
-      --muted: #777;
-      --green: #3bb54a;
-    }
+  --bg: #584040;       /* твой фон */
+  --card: rgba(255,255,255,0.18);
+  --card2: rgba(255,255,255,0.12);
+  --border: rgba(255,255,255,0.35);
+  --text: rgba(255,255,255,0.95);
+  --muted: rgba(255,255,255,0.7);
+  --green: #3bb54a;
+}
 
     body {
       font-family: Arial, sans-serif;
@@ -28,11 +29,16 @@
       box-sizing: border-box;
     }
 
-    h1{
-      margin: 0 0 10px 0;
-      font-size: 24px;
-      text-align: center;
-    }
+  .titleMain{
+  font-family: "Arial Black", Arial, sans-serif;
+  font-weight: 1000;
+  letter-spacing: 1px;
+  text-align: center;
+  margin: 0 0 10px 0;
+  font-size: 28px;
+  color: #e2bd0d;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.25);
+}
 
     /* ====== Навигация ====== */
     .nav {
@@ -139,13 +145,13 @@
     }
 
     .sectionHeader{
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 12px;
-      border-bottom: 1px solid #eee;
-      background: #fafafa;
-    }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+}
 
     .sectionHeader h3{
       margin: 0;
@@ -198,26 +204,35 @@
       gap: 8px;
     }
 
-    .card.done{
-      background: #f6fff6;
+
+    .leftRow{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
     }
 
     .left{
       display: flex;
       flex-direction: column;
       gap: 5px;
-      max-width: 70%;
+      max-width: 100%;
+      min-width: 0;
     }
 
     .title{
       font-size: 15px;
       font-weight: 700;
       word-break: break-word;
+      white-space: normal;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .title.done{
       text-decoration: line-through;
-      color: #666;
+      color: #293133;
     }
 
     .meta{
@@ -266,7 +281,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       justify-content: flex-end;
     }
 
@@ -275,9 +290,12 @@
       height: 36px;
       border-radius: 50%;
       border: 1px solid var(--border);
-      background: var(--card);
+      background: #f0f0f0;
       font-size: 15px;
       font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .check.done{
@@ -287,13 +305,24 @@
     }
 
     .edit, .delete{
-      background: var(--card);
-      border: 1px solid var(--border);
+      background: #f0f0f0;
+      border: 1px solid #c9c9c9;
       padding: 8px 10px;
       border-radius: 12px;
       font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
+    /* === Иконки в одном стиле === */
+    .check svg,
+    .edit svg,
+    .delete svg {
+      color: #000;
+    }
+
+    /* ====== Форма ====== */
     .form-row{
       display: flex;
       gap: 8px;
@@ -395,17 +424,16 @@
       }
 
       .card{
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: row;
+        align-items: center;
       }
 
-      .left{
-        max-width: 100%;
+      .leftRow{
+        gap: 8px;
       }
 
       .right{
-        width: 100%;
-        justify-content: flex-start;
+        gap: 6px;
       }
 
       .form-row{
@@ -420,35 +448,12 @@
         font-size: 18px;
       }
     }
-  @media (max-width: 500px){
-    #addBtn{
-      font-size: 18px;
-    }
-  }
-
-/* === COMPACT ADD TASK FORM === */
-.form-row.compact input,
-.form-row.compact select {
-  padding: 5px 8px;
-  font-size: 13px;
-  height: 120px;
-}
-
-#addBtn{
-  padding: 10px 12px;
-  font-size: 14px;
-  border-radius: 12px;
-  height: 38px;
-  margin-top: 8px;
-}
-
-</style>
 
   </style>
 </head>
 <body>
 
-<h1>Дела</h1>
+<h1 class="titleMain">GO TODO:</h1>
 
 <div class="nav">
   <button onclick="changeDay(-1)">← Вчера</button>
@@ -475,8 +480,8 @@
   <button class="btn info" id="toggleDatesBtn" onclick="toggleAllPeriods()">📅 Показать даты</button>
 </div>
 
-<div id="dailySection"></div>
 <div id="onceSection"></div>
+<div id="dailySection"></div>
 <div id="remindSection"></div>
 
 <hr>
@@ -589,7 +594,7 @@ function toggleAddSection() {
   }
 }
 
-toggleAddSection();
+
 
 typeSelect.addEventListener("change", () => {
   datesDiv.style.display = typeSelect.value === "daily" ? "block" : "none";
@@ -860,11 +865,7 @@ function renderTask(task, day) {
   div.className = "card" + (done ? " done" : "");
 
   const badgeType = task.type === "daily" ? "daily" : task.type === "once" ? "once" : "remind";
-  const badgeText = task.type === "daily"
-    ? `Ежедневная`
-    : task.type === "once"
-      ? "Задача на день"
-      : "Напоминание";
+  const badgeText = ""; // убираем текст тега
 
   let periodText = "";
 
@@ -882,18 +883,36 @@ function renderTask(task, day) {
   const streak = task.type === "daily" ? `· стрик ${calculateStreak(task, day)}` : "";
 
   div.innerHTML = `
-    <div class="left">
-      <div class="title ${done ? "done" : ""}">${task.title}</div>
-      <div class="meta">
-        <span class="badge ${badgeType}">${badgeText}</span>
-        <span class="period">${periodText}</span>
-        ${streak ? `<span class="badge">${streak}</span>` : ""}
+    <div class="leftRow">
+      <button class="btn check ${done ? "done" : ""}" onclick="toggleTask(${task.id})">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <div class="left">
+        <div class="title ${done ? "done" : ""}">${task.title}</div>
+        <div class="meta">
+          <span class="period">${periodText}</span>
+          ${streak ? `<span class="badge">${streak}</span>` : ""}
+        </div>
       </div>
     </div>
+
     <div class="right">
-      <button class="btn check ${done ? "done" : ""}" onclick="toggleTask(${task.id})">✓</button>
-      <button class="btn edit" onclick="editTask(${task.id})">✎</button>
-      <button class="btn delete" onclick="deleteTask(${task.id})">🗑</button>
+      <button class="btn edit" onclick="editTask(${task.id})">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 21h4l12-12-4-4L3 17v4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M14 6l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <button class="btn delete" onclick="deleteTask(${task.id})">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 6L18 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M18 6L6 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </button>
     </div>
   `;
 
@@ -984,9 +1003,10 @@ function render() {
   const allVisible = localStorage.getItem("allDatesVisible") === "true";
   toggleDatesBtn.textContent = allVisible ? "📅 Скрыть даты" : "📅 Показать даты";
 
-  if (dailyTasks.length > 0) dailySection.appendChild(renderSection("daily", "Ежедневные:", dailyTasks));
   if (onceTasks.length > 0) onceSection.appendChild(renderSection("once", "Задачи на день:", onceTasks));
+  if (dailyTasks.length > 0) dailySection.appendChild(renderSection("daily", "Ежедневные:", dailyTasks));
   if (remindTasks.length > 0) remindSection.appendChild(renderSection("remind", "Напоминания:", remindTasks));
+
 
   if (total === 0) {
     dailySection.innerHTML = "<p>На этот день задач нет 🎉</p>";
