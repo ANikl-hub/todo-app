@@ -292,7 +292,6 @@
       padding: 8px 10px;
       border-radius: 12px;
       font-size: 13px;
-      font-weight: 800;
     }
 
     .form-row{
@@ -302,7 +301,7 @@
     }
 
     .form-row > *{
-      flex: 1 1 160px;
+      flex: 1 1 50px;
       min-width: 150px;
     }
 
@@ -316,36 +315,17 @@
       font-size: 14px;
     }
 
-    /* ====== 350x50 рамка ====== */
-    .form-row--boxed{
-      width: 350px;
-      height: 50px;
-      max-width: 100%;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .form-row--boxed input,
-    .form-row--boxed select{
-      padding: 8px;
-      font-size: 13px;
-    }
-
     #addBtn{
-      width: 325px;
-      height: 24px;
-      padding: 0;
-      font-size: 14px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--card);
+      padding: 12px 14px;
       cursor: pointer;
+      border: none;
+      background: var(--green);
+      color: white;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 16px;
+      width: 100%;
       margin-top: 10px;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
     }
 
     .weekdays{
@@ -383,7 +363,7 @@
     }
 
     .accordionContent{
-      display: none; /* ВСЕГДА свернута */
+      display: none;
       margin-top: 10px;
       padding: 14px;
       border-radius: 14px;
@@ -437,10 +417,33 @@
       }
 
       #addBtn{
-        width: 100%;
-        font-size: 16px;
+        font-size: 18px;
       }
     }
+  @media (max-width: 500px){
+    #addBtn{
+      font-size: 18px;
+    }
+  }
+
+/* === COMPACT ADD TASK FORM === */
+.form-row.compact input,
+.form-row.compact select {
+  padding: 5px 8px;
+  font-size: 13px;
+  height: 120px;
+}
+
+#addBtn{
+  padding: 10px 12px;
+  font-size: 14px;
+  border-radius: 12px;
+  height: 38px;
+  margin-top: 8px;
+}
+
+</style>
+
   </style>
 </head>
 <body>
@@ -485,17 +488,17 @@
   </button>
 
   <div class="accordionContent" id="addSection">
-    <div class="form-row--boxed">
-      <input id="title" placeholder="Название дела">
-      <select id="type">
-        <option value="once">Внутридневная</option>
-        <option value="daily">Каждый день (от и до)</option>
-        <option value="remind">Напоминание</option>
-      </select>
-    </div>
+   <div class="form-row compact">
+  <input id="title" placeholder="Название дела">
+  <select id="type">
+    <option value="once">Внутридневная</option>
+    <option value="daily">Каждый день (от и до)</option>
+    <option value="remind">Напоминание</option>
+  </select>
+</div>
 
     <div id="dates" style="display:none;">
-      <div class="form-row">
+      <div class="form-row compact">
         <div>
           <label>С:</label>
           <input type="date" id="startDate">
@@ -586,8 +589,7 @@ function toggleAddSection() {
   }
 }
 
-// ❌ Важно: вкладка "Добавить задачу" всегда свернута
-// toggleAddSection() при загрузке не вызываем
+toggleAddSection();
 
 typeSelect.addEventListener("change", () => {
   datesDiv.style.display = typeSelect.value === "daily" ? "block" : "none";
