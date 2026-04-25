@@ -46,11 +46,11 @@
         }
         
         .titleMain {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 600;
             letter-spacing: -0.02em;
             text-align: center;
-            margin: 0 0 20px 0;
+            margin: 0 0 16px 0;
             color: #D4AF37;
         }
         
@@ -60,14 +60,15 @@
             margin-bottom: 20px;
             flex-wrap: wrap;
             justify-content: center;
+            align-items: center;
         }
         
-        .nav button, .dateBtn {
+        .nav-btn {
             background: #1A1B1F;
             border: 1px solid #2A2B30;
-            padding: 10px 16px;
+            padding: 8px 14px;
             border-radius: 40px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 500;
             color: #FFFFFF;
             cursor: pointer;
@@ -75,15 +76,26 @@
             font-family: inherit;
         }
         
-        .nav button:active, .dateBtn:active {
+        .nav-btn:active {
             background: #2A2B30;
             transform: scale(0.96);
         }
         
-        .dateBtn {
+        .date-badge {
             background: #2A2B30;
-            border-color: #D4AF37;
+            border: 1px solid #D4AF37;
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
             color: #D4AF37;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        
+        .date-badge:active {
+            background: #3A3B40;
+            transform: scale(0.96);
         }
         
         #datePicker {
@@ -93,7 +105,7 @@
         .stats {
             background: #1A1B1F;
             border-radius: 24px;
-            padding: 16px;
+            padding: 14px;
             margin-bottom: 20px;
             border: 1px solid rgba(255,255,255,0.04);
         }
@@ -101,8 +113,8 @@
         .statRow {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
-            font-size: 0.9rem;
+            padding: 6px 0;
+            font-size: 0.85rem;
             color: #FFFFFF;
         }
         
@@ -116,7 +128,7 @@
         }
         
         .progress {
-            margin-top: 12px;
+            margin-top: 10px;
             height: 6px;
             background: #26272D;
             border-radius: 100px;
@@ -135,13 +147,13 @@
             background: none;
             border: 0.5px solid #2D2E35;
             color: #B0B0B8;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 500;
-            padding: 8px 14px;
+            padding: 6px 12px;
             border-radius: 40px;
             cursor: pointer;
             font-family: inherit;
-            margin-top: 12px;
+            margin-top: 10px;
             width: 100%;
         }
         
@@ -153,7 +165,7 @@
         .sectionBox {
             background: #1A1B1F;
             border-radius: 24px;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             overflow: hidden;
             border: 1px solid rgba(255,255,255,0.04);
         }
@@ -162,28 +174,28 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 14px 16px;
+            padding: 12px 14px;
             border-bottom: 1px solid rgba(255,255,255,0.06);
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
         
         .sectionHeader .left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
         }
         
         .sectionHeader h3 {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             color: #FFFFFF;
         }
         
         .statusBox {
-            font-size: 0.7rem;
-            padding: 4px 10px;
+            font-size: 0.65rem;
+            padding: 3px 8px;
             border-radius: 40px;
             background: rgba(212,175,55,0.15);
             color: #D4AF37;
@@ -194,8 +206,8 @@
             background: none;
             border: 0.5px solid #2D2E35;
             color: #B0B0B8;
-            font-size: 0.7rem;
-            padding: 6px 12px;
+            font-size: 0.65rem;
+            padding: 5px 10px;
             border-radius: 40px;
             cursor: pointer;
         }
@@ -205,32 +217,32 @@
         }
         
         .sectionContent {
-            padding: 12px;
+            padding: 10px;
         }
         
         .task-card {
             background: #0F1013;
-            border-radius: 20px;
-            padding: 14px;
-            margin-bottom: 10px;
+            border-radius: 18px;
+            padding: 12px;
+            margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             border: 0.5px solid rgba(255,255,255,0.04);
         }
         
         .task-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             flex: 1;
             min-width: 0;
         }
         
         .check-btn {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             background: #1A1B1F;
             border: 1px solid #2A2B30;
@@ -265,11 +277,11 @@
         }
         
         .task-title {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 500;
             color: #FFFFFF;
             word-break: break-word;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
         
         .task-title.done {
@@ -279,19 +291,19 @@
         
         .task-meta {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
             align-items: center;
         }
         
         .period {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #8E8E92;
         }
         
         .badge {
-            font-size: 0.65rem;
-            padding: 2px 8px;
+            font-size: 0.6rem;
+            padding: 2px 6px;
             border-radius: 40px;
             background: rgba(212,175,55,0.1);
             color: #D4AF37;
@@ -299,13 +311,13 @@
         
         .task-actions {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             flex-shrink: 0;
         }
         
         .action-btn {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             border-radius: 40px;
             background: #1A1B1F;
             border: 1px solid #2A2B30;
@@ -326,7 +338,7 @@
         }
         
         .accordion {
-            margin-top: 20px;
+            margin-top: 16px;
         }
         
         .accordion-btn {
@@ -334,12 +346,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 14px 18px;
+            padding: 12px 16px;
             background: #1A1B1F;
             border: 1px solid rgba(255,255,255,0.06);
             border-radius: 28px;
             color: #FFFFFF;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.15s;
@@ -350,14 +362,14 @@
         }
         
         .accordion-arrow {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #D4AF37;
         }
         
         .accordion-content {
             display: none;
-            margin-top: 12px;
-            padding: 20px;
+            margin-top: 10px;
+            padding: 16px;
             background: #1A1B1F;
             border-radius: 24px;
             border: 1px solid rgba(255,255,255,0.04);
@@ -366,8 +378,8 @@
         .form-row-compact {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-bottom: 16px;
+            gap: 10px;
+            margin-bottom: 14px;
         }
         
         input, select {
@@ -375,8 +387,8 @@
             background: #0F1013;
             border: 1px solid #2A2B30;
             border-radius: 18px;
-            padding: 14px 16px;
-            font-size: 1rem;
+            padding: 12px 14px;
+            font-size: 0.9rem;
             color: #FFFFFF;
             font-family: inherit;
             outline: none;
@@ -391,15 +403,15 @@
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
-            margin: 12px 0;
+            margin: 10px 0;
         }
         
         .weekdays label {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             color: #FFFFFF;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             cursor: pointer;
         }
         
@@ -412,14 +424,14 @@
             background: #D4AF37;
             border: none;
             border-radius: 28px;
-            padding: 14px 20px;
+            padding: 12px 16px;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #0B0C0E;
             cursor: pointer;
             transition: all 0.15s;
             width: 100%;
-            margin-top: 8px;
+            margin-top: 6px;
         }
         
         .add-btn:active {
@@ -429,17 +441,17 @@
         
         .empty-message {
             text-align: center;
-            padding: 32px 20px;
+            padding: 24px 16px;
             color: #5E5E68;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
         
         footer {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             color: #484850;
             text-align: center;
-            margin-top: 20px;
-            padding-bottom: 8px;
+            margin-top: 16px;
+            padding-bottom: 6px;
         }
         
         input[type="date"]::-webkit-calendar-picker-indicator {
@@ -472,10 +484,10 @@
         <h1 class="titleMain">GO TODO</h1>
         
         <div class="nav">
-            <button onclick="window.changeDay(-1)">← Вчера</button>
-            <button onclick="window.goToday()">Сегодня</button>
-            <button onclick="window.changeDay(1)">Завтра →</button>
-            <button class="dateBtn" onclick="window.openDatePicker()">
+            <button class="nav-btn" onclick="window.changeDay(-1)">← Вчера</button>
+            <button class="nav-btn" onclick="window.goToday()">Сегодня</button>
+            <button class="nav-btn" onclick="window.changeDay(1)">Завтра →</button>
+            <button class="date-badge" onclick="window.openDatePicker()">
                 <span id="dateText">Дата</span>
             </button>
             <input type="date" id="datePicker" onchange="window.selectDate(this.value)">
@@ -486,10 +498,10 @@
             <div class="statRow"><span>Выполнено:</span><b id="doneTasks">0</b></div>
             <div class="statRow"><span>Прогресс:</span><b id="progress">0%</b></div>
             <div class="progress"><div id="progressBar"></div></div>
-            <button class="btn-info" onclick="window.toggleAllPeriods()">📅 Показать даты</button>
+            <button class="btn-info" onclick="window.toggleAllPeriods()">Показать даты</button>
         </div>
         
-        <div id="onceSection"></div>
+        <div id="todaySection"></div>
         <div id="dailySection"></div>
         <div id="remindSection"></div>
         
@@ -502,16 +514,16 @@
                 <div class="form-row-compact">
                     <input id="title" placeholder="Название дела">
                     <select id="type">
-                        <option value="once">📅 Внутридневная</option>
-                        <option value="daily">🔄 Постоянная (каждый день)</option>
-                        <option value="remind">⏰ Напоминание</option>
+                        <option value="today">Задача на сегодня</option>
+                        <option value="daily">Постоянная</option>
+                        <option value="remind">Напоминание</option>
                     </select>
                 </div>
                 
-                <!-- Для внутридневной задачи - выбор даты -->
-                <div id="onceDateBlock" style="display:none;">
+                <!-- Для задачи на сегодня - выбор даты -->
+                <div id="todayDateBlock" style="display:none;">
                     <div class="form-row-compact">
-                        <input type="date" id="onceDate" placeholder="Дата выполнения">
+                        <input type="date" id="todayDate">
                     </div>
                 </div>
                 
@@ -523,17 +535,16 @@
                     </div>
                 </div>
                 
-                <!-- Для напоминания - расширенные настройки -->
+                <!-- Для напоминания -->
                 <div id="remindBlock" style="display:none;">
                     <div class="form-row-compact">
                         <select id="remindSubtype">
-                            <option value="every">🔄 Раз в N дней</option>
-                            <option value="weekdays">📅 По дням недели</option>
-                            <option value="specific">📍 Конкретный день</option>
+                            <option value="every">Раз в N дней</option>
+                            <option value="weekdays">По дням недели</option>
+                            <option value="specific">Конкретный день</option>
                         </select>
                     </div>
                     
-                    <!-- Раз в N дней -->
                     <div id="remindEveryBlock">
                         <div class="form-row-compact">
                             <input type="date" id="remindStart" placeholder="Дата старта">
@@ -541,7 +552,6 @@
                         </div>
                     </div>
                     
-                    <!-- По дням недели -->
                     <div id="remindWeekdaysBlock" style="display:none;">
                         <div class="form-row-compact">
                             <input type="date" id="remindWeekdaysStart" placeholder="Дата старта (опционально)">
@@ -557,7 +567,6 @@
                         </div>
                     </div>
                     
-                    <!-- Конкретный день -->
                     <div id="remindSpecificBlock" style="display:none;">
                         <div class="form-row-compact">
                             <input type="date" id="remindSpecificDate" placeholder="Дата напоминания">
@@ -565,7 +574,7 @@
                     </div>
                 </div>
                 
-                <button class="add-btn" onclick="window.addTask()">＋ Добавить</button>
+                <button class="add-btn" onclick="window.addTask()">Добавить</button>
             </div>
         </div>
         
@@ -574,12 +583,11 @@
 </div>
 
 <script>
-    // DOM элементы
+    const todaySection = document.getElementById("todaySection");
     const dailySection = document.getElementById("dailySection");
-    const onceSection = document.getElementById("onceSection");
     const remindSection = document.getElementById("remindSection");
     const typeSelect = document.getElementById("type");
-    const onceDateBlock = document.getElementById("onceDateBlock");
+    const todayDateBlock = document.getElementById("todayDateBlock");
     const dailyDatesBlock = document.getElementById("dailyDatesBlock");
     const remindBlock = document.getElementById("remindBlock");
     const remindSubtype = document.getElementById("remindSubtype");
@@ -594,9 +602,8 @@
     const progressBarEl = document.getElementById("progressBar");
     
     let viewDate = getMskToday();
-    let sectionsState = { once: true, daily: true, remind: true };
+    let sectionsState = { today: true, daily: true, remind: true };
     
-    // Функции дат
     function getMskToday() {
         const formatter = new Intl.DateTimeFormat("ru-RU", {
             timeZone: "Europe/Moscow",
@@ -626,7 +633,6 @@
         return `${y}-${m}-${day}`;
     }
     
-    // Работа с задачами
     function loadTasks() {
         return JSON.parse(localStorage.getItem("tasks") || "[]");
     }
@@ -645,7 +651,7 @@
     }
     
     function isTaskForDay(task, day) {
-        if (task.type === "once") return task.date === day;
+        if (task.type === "today") return task.date === day;
         if (task.type === "daily") return day >= task.startDate && day <= task.endDate;
         if (task.type === "remind") return isReminderActive(task, day);
         return false;
@@ -714,10 +720,10 @@
             showPeriod: false
         };
         
-        if (type === "once") {
-            const date = document.getElementById("onceDate").value;
+        if (type === "today") {
+            const date = document.getElementById("todayDate").value;
             if (!date) {
-                alert("Выберите дату выполнения");
+                alert("Выберите дату");
                 return;
             }
             task.date = date;
@@ -746,7 +752,7 @@
                     return;
                 }
                 if (!every || every < 1) {
-                    alert("Укажите частоту (раз в N дней)");
+                    alert("Укажите частоту");
                     return;
                 }
                 task.startDate = start;
@@ -766,7 +772,7 @@
             else if (remindMode === "specific") {
                 const specificDate = document.getElementById("remindSpecificDate").value;
                 if (!specificDate) {
-                    alert("Выберите дату напоминания");
+                    alert("Выберите дату");
                     return;
                 }
                 task.specificDate = specificDate;
@@ -815,14 +821,14 @@
         const newTitle = prompt("Новое название:", task.title);
         if (newTitle !== null && newTitle.trim()) task.title = newTitle.trim();
         
-        if (task.type === "once") {
+        if (task.type === "today") {
             const newDate = prompt("Новая дата (ГГГГ-ММ-ДД):", task.date);
             if (newDate) task.date = newDate;
         }
         
         if (task.type === "daily") {
-            const newStart = prompt("Новая дата начала (ГГГГ-ММ-ДД):", task.startDate);
-            const newEnd = prompt("Новая дата конца (ГГГГ-ММ-ДД):", task.endDate);
+            const newStart = prompt("Новая дата начала:", task.startDate);
+            const newEnd = prompt("Новая дата конца:", task.endDate);
             if (newStart) task.startDate = newStart;
             if (newEnd) task.endDate = newEnd;
         }
@@ -835,13 +841,13 @@
                 if (newEvery) task.every = Number(newEvery);
             }
             else if (task.remindMode === "weekdays") {
-                const newStart = prompt("Новая дата старта (оставьте пустым если не нужно):", task.startDate || "");
+                const newStart = prompt("Новая дата старта (оставьте пустым):", task.startDate || "");
                 if (newStart !== null && newStart !== "") task.startDate = newStart;
                 const newDays = prompt("Дни недели (0-вс,1-пн... через запятую):", task.weekdays.join(","));
                 if (newDays) task.weekdays = newDays.split(",").map(x => Number(x.trim()));
             }
             else if (task.remindMode === "specific") {
-                const newDate = prompt("Новая дата напоминания:", task.specificDate);
+                const newDate = prompt("Новая дата:", task.specificDate);
                 if (newDate) task.specificDate = newDate;
             }
         }
@@ -851,11 +857,11 @@
     };
     
     function getTaskPeriodText(task) {
-        if (task.type === "once") {
+        if (task.type === "today") {
             return formatDate(task.date);
         }
         if (task.type === "daily") {
-            return `${formatDate(task.startDate)}–${formatDate(task.endDate)}`;
+            return `${formatDate(task.startDate)} – ${formatDate(task.endDate)}`;
         }
         if (task.type === "remind") {
             if (task.remindMode === "every") {
@@ -886,7 +892,7 @@
         taskDiv.innerHTML = `
             <div class="task-left">
                 <button class="check-btn ${done ? "done" : ""}" onclick="window.toggleTask(${task.id})">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                         <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </button>
@@ -894,19 +900,19 @@
                     <div class="task-title ${done ? "done" : ""}">${escapeHtml(task.title)}</div>
                     <div class="task-meta">
                         <span class="period" style="${showPeriod ? "" : "display:none"}">${periodText}</span>
-                        ${streak > 0 ? `<span class="badge">🔥 стрик ${streak}</span>` : ""}
+                        ${streak > 0 ? `<span class="badge">стрик ${streak}</span>` : ""}
                     </div>
                 </div>
             </div>
             <div class="task-actions">
                 <button class="action-btn" onclick="window.editTask(${task.id})">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                         <path d="M3 21h4l12-12-4-4L3 17v4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
                         <path d="M14 6l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                     </svg>
                 </button>
                 <button class="action-btn" onclick="window.deleteTask(${task.id})">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                         <path d="M6 6L18 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
                         <path d="M18 6L6 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
                     </svg>
@@ -930,7 +936,7 @@
                     <h3>${title}</h3>
                     <div class="statusBox">${done}/${total} выполнено</div>
                 </div>
-                <button class="toggle" data-section="${section}">${sectionsState[section] ? "Развернуть" : "Свернуть"}</button>
+                <button class="toggle" data-section="${section}">${sectionsState[section] ? "Свернуть" : "Развернуть"}</button>
             </div>
             <div class="sectionContent" style="display: ${sectionsState[section] ? "none" : "block"}"></div>
         `;
@@ -965,11 +971,11 @@
         datePicker.value = viewDate;
         
         const tasks = loadTasks();
+        const todayTasks = tasks.filter(t => t.type === "today" && isTaskForDay(t, viewDate));
         const dailyTasks = tasks.filter(t => t.type === "daily" && isTaskForDay(t, viewDate));
-        const onceTasks = tasks.filter(t => t.type === "once" && isTaskForDay(t, viewDate));
         const remindTasks = tasks.filter(t => t.type === "remind" && isTaskForDay(t, viewDate));
         
-        const total = dailyTasks.length + onceTasks.length + remindTasks.length;
+        const total = todayTasks.length + dailyTasks.length + remindTasks.length;
         const done = tasks.filter(t => isTaskForDay(t, viewDate) && isCompleted(t, viewDate)).length;
         const percent = total === 0 ? 0 : Math.round((done / total) * 100);
         
@@ -978,19 +984,35 @@
         progressEl.textContent = `${percent}%`;
         progressBarEl.style.width = `${percent}%`;
         
-        onceSection.innerHTML = "";
+        todaySection.innerHTML = "";
         dailySection.innerHTML = "";
         remindSection.innerHTML = "";
         
-        if (onceTasks.length) onceSection.appendChild(renderSection("once", "📅 Внутридневные", onceTasks));
-        if (dailyTasks.length) dailySection.appendChild(renderSection("daily", "🔄 Постоянные", dailyTasks));
-        if (remindTasks.length) remindSection.appendChild(renderSection("remind", "⏰ Напоминания", remindTasks));
+        if (todayTasks.length) todaySection.appendChild(renderSection("today", "Задачи на сегодня", todayTasks));
+        if (dailyTasks.length) dailySection.appendChild(renderSection("daily", "Постоянные", dailyTasks));
+        if (remindTasks.length) remindSection.appendChild(renderSection("remind", "Напоминания", remindTasks));
         
         if (total === 0) {
-            dailySection.innerHTML = '<div class="empty-message">На этот день задач нет 🎉</div>';
+            dailySection.innerHTML = '<div class="empty-message">На этот день задач нет</div>';
         }
     }
     
     window.changeDay = function(delta) {
         const d = new Date(viewDate + "T00:00:00");
-        d.setDate(d
+        d.setDate(d.getDate() + delta);
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        viewDate = `${y}-${m}-${day}`;
+        render();
+    };
+    
+    window.goToday = function() {
+        viewDate = getMskToday();
+        render();
+    };
+    
+    window.openDatePicker = function() {
+        if (datePicker.showPicker) {
+            datePicker.showPicker();
+       
