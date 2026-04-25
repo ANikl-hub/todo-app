@@ -1015,4 +1015,66 @@
     window.openDatePicker = function() {
         if (datePicker.showPicker) {
             datePicker.showPicker();
-       
+        } else {
+            datePicker.click();
+        }
+    };
+    
+    window.selectDate = function(value) {
+        if (value) {
+            viewDate = value;
+            render();
+        }
+    };
+    
+    window.toggleAddSection = function() {
+        const addSectionEl = document.getElementById("addSection");
+        const arrow = document.getElementById("accordionArrow");
+        if (addSectionEl.style.display === "block") {
+            addSectionEl.style.display = "none";
+            arrow.textContent = "+";
+        } else {
+            addSectionEl.style.display = "block";
+            arrow.textContent = "−";
+        }
+    };
+    
+    typeSelect.addEventListener("change", () => {
+        const type = typeSelect.value;
+        todayDateBlock.style.display = type === "today" ? "block" : "none";
+        dailyDatesBlock.style.display = type === "daily" ? "block" : "none";
+        remindBlock.style.display = type === "remind" ? "block" : "none";
+        
+        if (type === "today") {
+            document.getElementById("todayDate").value = getMskToday();
+        }
+    });
+    
+    remindSubtype.addEventListener("change", () => {
+        const mode = remindSubtype.value;
+        remindEveryBlock.style.display = mode === "every" ? "block" : "none";
+        remindWeekdaysBlock.style.display = mode === "weekdays" ? "block" : "none";
+        remindSpecificBlock.style.display = mode === "specific" ? "block" : "none";
+        
+        if (mode === "every") {
+            document.getElementById("remindStart").value = getMskToday();
+        }
+        if (mode === "specific") {
+            document.getElementById("remindSpecificDate").value = getMskToday();
+        }
+    });
+    
+    document.getElementById("todayDate").value = getMskToday();
+    document.getElementById("remindStart").value = getMskToday();
+    document.getElementById("remindSpecificDate").value = getMskToday();
+    
+    render();
+    
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js')
+            .then(() => console.log('SW registered'))
+            .catch(err => console.log('SW error:', err));
+    }
+</script>
+</body>
+</html>
