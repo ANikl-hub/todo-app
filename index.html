@@ -8,6 +8,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="GO TODO">
     
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
     <title>GO TODO — задачи</title>
     <style>
         * {
@@ -49,15 +52,6 @@
             text-align: center;
             margin: 0 0 20px 0;
             color: #D4AF37;
-        }
-        
-        .label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            font-weight: 500;
-            color: #8E8E92;
-            margin-bottom: 6px;
         }
         
         .nav {
@@ -508,31 +502,50 @@
                 <div class="form-row-compact">
                     <input id="title" placeholder="Название дела">
                     <select id="type">
-                        <option value="once">Внутридневная</option>
-                        <option value="daily">Каждый день (от и до)</option>
-                        <option value="remind">Напоминание</option>
+                        <option value="once">📅 Внутридневная</option>
+                        <option value="daily">🔄 Постоянная (каждый день)</option>
+                        <option value="remind">⏰ Напоминание</option>
                     </select>
                 </div>
                 
-                <div id="dates" style="display:none;">
+                <!-- Для внутридневной задачи - выбор даты -->
+                <div id="onceDateBlock" style="display:none;">
+                    <div class="form-row-compact">
+                        <input type="date" id="onceDate" placeholder="Дата выполнения">
+                    </div>
+                </div>
+                
+                <!-- Для постоянной задачи - диапазон дат -->
+                <div id="dailyDatesBlock" style="display:none;">
                     <div class="form-row-compact">
                         <input type="date" id="startDate" placeholder="Дата начала">
                         <input type="date" id="endDate" placeholder="Дата конца">
                     </div>
                 </div>
                 
-                <div id="remind" style="display:none;">
+                <!-- Для напоминания - расширенные настройки -->
+                <div id="remindBlock" style="display:none;">
                     <div class="form-row-compact">
-                        <input type="date" id="remindStart" placeholder="Дата старта">
-                        <select id="remindType">
-                            <option value="every">Раз в N дней</option>
-                            <option value="weekdays">По дням недели</option>
+                        <select id="remindSubtype">
+                            <option value="every">🔄 Раз в N дней</option>
+                            <option value="weekdays">📅 По дням недели</option>
+                            <option value="specific">📍 Конкретный день</option>
                         </select>
                     </div>
+                    
+                    <!-- Раз в N дней -->
                     <div id="remindEveryBlock">
-                        <input type="number" id="remindEvery" min="1" value="3" placeholder="Раз в N дней">
+                        <div class="form-row-compact">
+                            <input type="date" id="remindStart" placeholder="Дата старта">
+                            <input type="number" id="remindEvery" min="1" value="3" placeholder="Раз в N дней">
+                        </div>
                     </div>
-                    <div id="weekdaysBlock" style="display:none;">
+                    
+                    <!-- По дням недели -->
+                    <div id="remindWeekdaysBlock" style="display:none;">
+                        <div class="form-row-compact">
+                            <input type="date" id="remindWeekdaysStart" placeholder="Дата старта (опционально)">
+                        </div>
                         <div class="weekdays">
                             <label><input type="checkbox" value="1"> Пн</label>
                             <label><input type="checkbox" value="2"> Вт</label>
@@ -541,6 +554,13 @@
                             <label><input type="checkbox" value="5"> Пт</label>
                             <label><input type="checkbox" value="6"> Сб</label>
                             <label><input type="checkbox" value="0"> Вс</label>
+                        </div>
+                    </div>
+                    
+                    <!-- Конкретный день -->
+                    <div id="remindSpecificBlock" style="display:none;">
+                        <div class="form-row-compact">
+                            <input type="date" id="remindSpecificDate" placeholder="Дата напоминания">
                         </div>
                     </div>
                 </div>
@@ -559,11 +579,13 @@
     const onceSection = document.getElementById("onceSection");
     const remindSection = document.getElementById("remindSection");
     const typeSelect = document.getElementById("type");
-    const datesDiv = document.getElementById("dates");
-    const remindDiv = document.getElementById("remind");
-    const remindType = document.getElementById("remindType");
+    const onceDateBlock = document.getElementById("onceDateBlock");
+    const dailyDatesBlock = document.getElementById("dailyDatesBlock");
+    const remindBlock = document.getElementById("remindBlock");
+    const remindSubtype = document.getElementById("remindSubtype");
     const remindEveryBlock = document.getElementById("remindEveryBlock");
-    const weekdaysBlock = document.getElementById("weekdaysBlock");
+    const remindWeekdaysBlock = document.getElementById("remindWeekdaysBlock");
+    const remindSpecificBlock = document.getElementById("remindSpecificBlock");
     const viewDateDisplay = document.getElementById("dateText");
     const datePicker = document.getElementById("datePicker");
     const totalTasksEl = document.getElementById("totalTasks");
@@ -572,7 +594,7 @@
     const progressBarEl = document.getElementById("progressBar");
     
     let viewDate = getMskToday();
-    let sectionsState = { daily: true, once: true, remind: true };
+    let sectionsState = { once: true, daily: true, remind: true };
     
     // Функции дат
     function getMskToday() {
@@ -625,11 +647,11 @@
     function isTaskForDay(task, day) {
         if (task.type === "once") return task.date === day;
         if (task.type === "daily") return day >= task.startDate && day <= task.endDate;
-        if (task.type === "remind") return isReminderToday(task, day);
+        if (task.type === "remind") return isReminderActive(task, day);
         return false;
     }
     
-    function isReminderToday(task, day) {
+    function isReminderActive(task, day) {
         if (task.remindMode === "every") {
             const start = new Date(task.startDate + "T00:00:00");
             const current = new Date(day + "T00:00:00");
@@ -637,9 +659,13 @@
             return diff >= 0 && diff % task.every === 0;
         }
         if (task.remindMode === "weekdays") {
+            if (task.startDate && day < task.startDate) return false;
             const d = new Date(day + "T00:00:00");
             const weekday = d.getDay();
             return task.weekdays && task.weekdays.includes(weekday);
+        }
+        if (task.remindMode === "specific") {
+            return task.specificDate === day;
         }
         return false;
     }
@@ -675,7 +701,10 @@
     window.addTask = function() {
         const title = document.getElementById("title").value.trim();
         const type = typeSelect.value;
-        if (!title) return;
+        if (!title) {
+            alert("Введите название задачи");
+            return;
+        }
         
         const task = {
             id: Date.now(),
@@ -685,33 +714,62 @@
             showPeriod: false
         };
         
+        if (type === "once") {
+            const date = document.getElementById("onceDate").value;
+            if (!date) {
+                alert("Выберите дату выполнения");
+                return;
+            }
+            task.date = date;
+        }
+        
         if (type === "daily") {
             const start = document.getElementById("startDate").value;
             const end = document.getElementById("endDate").value;
-            if (!start || !end) { alert("Укажите даты начала и конца"); return; }
+            if (!start || !end) {
+                alert("Укажите даты начала и конца");
+                return;
+            }
             task.startDate = start;
             task.endDate = end;
         }
         
-        if (type === "once") {
-            task.date = viewDate;
-        }
-        
         if (type === "remind") {
-            const start = document.getElementById("remindStart").value;
-            if (!start) { alert("Укажите дату старта"); return; }
-            task.startDate = start;
-            if (remindType.value === "every") {
+            const remindMode = remindSubtype.value;
+            task.remindMode = remindMode;
+            
+            if (remindMode === "every") {
+                const start = document.getElementById("remindStart").value;
                 const every = Number(document.getElementById("remindEvery").value);
-                if (!every || every < 1) { alert("Укажите частоту"); return; }
-                task.remindMode = "every";
+                if (!start) {
+                    alert("Укажите дату старта");
+                    return;
+                }
+                if (!every || every < 1) {
+                    alert("Укажите частоту (раз в N дней)");
+                    return;
+                }
+                task.startDate = start;
                 task.every = every;
-            } else {
-                const days = Array.from(document.querySelectorAll("#weekdaysBlock input:checked"))
+            }
+            else if (remindMode === "weekdays") {
+                const start = document.getElementById("remindWeekdaysStart").value;
+                const days = Array.from(document.querySelectorAll("#remindWeekdaysBlock input:checked"))
                     .map(ch => Number(ch.value));
-                if (days.length === 0) { alert("Выберите хотя бы один день"); return; }
-                task.remindMode = "weekdays";
+                if (days.length === 0) {
+                    alert("Выберите хотя бы один день недели");
+                    return;
+                }
+                if (start) task.startDate = start;
                 task.weekdays = days;
+            }
+            else if (remindMode === "specific") {
+                const specificDate = document.getElementById("remindSpecificDate").value;
+                if (!specificDate) {
+                    alert("Выберите дату напоминания");
+                    return;
+                }
+                task.specificDate = specificDate;
             }
         }
         
@@ -742,9 +800,11 @@
     };
     
     window.deleteTask = function(id) {
-        const tasks = loadTasks().filter(t => t.id !== id);
-        saveTasks(tasks);
-        render();
+        if (confirm("Удалить задачу?")) {
+            const tasks = loadTasks().filter(t => t.id !== id);
+            saveTasks(tasks);
+            render();
+        }
     };
     
     window.editTask = function(id) {
@@ -755,6 +815,11 @@
         const newTitle = prompt("Новое название:", task.title);
         if (newTitle !== null && newTitle.trim()) task.title = newTitle.trim();
         
+        if (task.type === "once") {
+            const newDate = prompt("Новая дата (ГГГГ-ММ-ДД):", task.date);
+            if (newDate) task.date = newDate;
+        }
+        
         if (task.type === "daily") {
             const newStart = prompt("Новая дата начала (ГГГГ-ММ-ДД):", task.startDate);
             const newEnd = prompt("Новая дата конца (ГГГГ-ММ-ДД):", task.endDate);
@@ -763,14 +828,21 @@
         }
         
         if (task.type === "remind") {
-            const newStart = prompt("Новая дата старта:", task.startDate);
-            if (newStart) task.startDate = newStart;
             if (task.remindMode === "every") {
+                const newStart = prompt("Новая дата старта:", task.startDate);
                 const newEvery = prompt("Новая частота (дней):", task.every);
+                if (newStart) task.startDate = newStart;
                 if (newEvery) task.every = Number(newEvery);
-            } else {
+            }
+            else if (task.remindMode === "weekdays") {
+                const newStart = prompt("Новая дата старта (оставьте пустым если не нужно):", task.startDate || "");
+                if (newStart !== null && newStart !== "") task.startDate = newStart;
                 const newDays = prompt("Дни недели (0-вс,1-пн... через запятую):", task.weekdays.join(","));
                 if (newDays) task.weekdays = newDays.split(",").map(x => Number(x.trim()));
+            }
+            else if (task.remindMode === "specific") {
+                const newDate = prompt("Новая дата напоминания:", task.specificDate);
+                if (newDate) task.specificDate = newDate;
             }
         }
         
@@ -778,23 +850,36 @@
         render();
     };
     
+    function getTaskPeriodText(task) {
+        if (task.type === "once") {
+            return formatDate(task.date);
+        }
+        if (task.type === "daily") {
+            return `${formatDate(task.startDate)}–${formatDate(task.endDate)}`;
+        }
+        if (task.type === "remind") {
+            if (task.remindMode === "every") {
+                return `Каждые ${task.every} дн. с ${formatDate(task.startDate)}`;
+            }
+            if (task.remindMode === "weekdays") {
+                const names = ["Вс","Пн","Вт","Ср","Чт","Пт","Сб"];
+                const daysStr = task.weekdays.map(d => names[d]).join(", ");
+                const startInfo = task.startDate ? ` с ${formatDate(task.startDate)}` : "";
+                return `${daysStr}${startInfo}`;
+            }
+            if (task.remindMode === "specific") {
+                return formatDate(task.specificDate);
+            }
+        }
+        return "";
+    }
+    
     function renderTask(task) {
         const done = isCompleted(task, viewDate);
         const taskDiv = document.createElement("div");
         taskDiv.className = "task-card";
         
-        let periodText = "";
-        if (task.type === "daily") {
-            periodText = `${formatDate(task.startDate)}–${formatDate(task.endDate)}`;
-        } else if (task.type === "remind") {
-            if (task.remindMode === "every") {
-                periodText = `Каждые ${task.every} дн.`;
-            } else {
-                const names = ["Вс","Пн","Вт","Ср","Чт","Пт","Сб"];
-                periodText = task.weekdays ? task.weekdays.map(d => names[d]).join(", ") : "";
-            }
-        }
-        
+        const periodText = getTaskPeriodText(task);
         const streak = calculateStreak(task, viewDate);
         const showPeriod = task.type === "daily" ? task.showPeriod : true;
         
@@ -897,9 +982,9 @@
         dailySection.innerHTML = "";
         remindSection.innerHTML = "";
         
-        if (onceTasks.length) onceSection.appendChild(renderSection("once", "Задачи на день", onceTasks));
-        if (dailyTasks.length) dailySection.appendChild(renderSection("daily", "Ежедневные", dailyTasks));
-        if (remindTasks.length) remindSection.appendChild(renderSection("remind", "Напоминания", remindTasks));
+        if (onceTasks.length) onceSection.appendChild(renderSection("once", "📅 Внутридневные", onceTasks));
+        if (dailyTasks.length) dailySection.appendChild(renderSection("daily", "🔄 Постоянные", dailyTasks));
+        if (remindTasks.length) remindSection.appendChild(renderSection("remind", "⏰ Напоминания", remindTasks));
         
         if (total === 0) {
             dailySection.innerHTML = '<div class="empty-message">На этот день задач нет 🎉</div>';
@@ -908,63 +993,4 @@
     
     window.changeDay = function(delta) {
         const d = new Date(viewDate + "T00:00:00");
-        d.setDate(d.getDate() + delta);
-        const y = d.getFullYear();
-        const m = String(d.getMonth() + 1).padStart(2, "0");
-        const day = String(d.getDate()).padStart(2, "0");
-        viewDate = `${y}-${m}-${day}`;
-        render();
-    };
-    
-    window.goToday = function() {
-        viewDate = getMskToday();
-        render();
-    };
-    
-    window.openDatePicker = function() {
-        if (datePicker.showPicker) {
-            datePicker.showPicker();
-        } else {
-            datePicker.click();
-        }
-    };
-    
-    window.selectDate = function(value) {
-        if (value) {
-            viewDate = value;
-            render();
-        }
-    };
-    
-    window.toggleAddSection = function() {
-        const addSectionEl = document.getElementById("addSection");
-        const arrow = document.getElementById("accordionArrow");
-        if (addSectionEl.style.display === "block") {
-            addSectionEl.style.display = "none";
-            arrow.textContent = "+";
-        } else {
-            addSectionEl.style.display = "block";
-            arrow.textContent = "−";
-        }
-    };
-    
-    // Обработчики типов
-    typeSelect.addEventListener("change", () => {
-        datesDiv.style.display = typeSelect.value === "daily" ? "block" : "none";
-        remindDiv.style.display = typeSelect.value === "remind" ? "block" : "none";
-    });
-    
-    remindType.addEventListener("change", () => {
-        const type = remindType.value;
-        remindEveryBlock.style.display = type === "every" ? "block" : "none";
-        weekdaysBlock.style.display = type === "weekdays" ? "block" : "none";
-        if (type === "weekdays") {
-            document.getElementById("remindStart").value = getMskToday();
-        }
-    });
-    
-    // init
-    render();
-</script>
-</body>
-</html>
+        d.setDate(d
