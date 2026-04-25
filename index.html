@@ -8,8 +8,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="GO TODO">
     
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="manifest" href="/todo-app/manifest.json">
+    <link rel="apple-touch-icon" href="/todo-app/icon-192.png">
     
     <title>GO TODO — задачи</title>
     <style>
@@ -99,12 +99,54 @@
             display: none;
         }
         
+        /* Блок статистики — сворачиваемый */
         .stats {
             background: #1A1B1F;
             border-radius: 24px;
-            padding: 14px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             border: 1px solid rgba(255,255,255,0.04);
+            overflow: hidden;
+        }
+        
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            cursor: pointer;
+            background: #1A1B1F;
+            transition: background 0.15s;
+        }
+        
+        .stats-header:active {
+            background: #222328;
+        }
+        
+        .stats-header h3 {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #8E8E92;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        
+        .stats-arrow {
+            font-size: 1rem;
+            color: #D4AF37;
+            transition: transform 0.2s;
+        }
+        
+        .stats-arrow.collapsed {
+            transform: rotate(-90deg);
+        }
+        
+        .stats-content {
+            padding: 0 16px 16px 16px;
+            transition: all 0.2s;
+        }
+        
+        .stats-content.collapsed {
+            display: none;
         }
         
         .statRow {
@@ -124,8 +166,12 @@
             font-weight: 600;
         }
         
+        /* Полоска прогресса — всегда видна */
+        .progress-section {
+            margin-bottom: 16px;
+        }
+        
         .progress {
-            margin-top: 10px;
             height: 6px;
             background: #26272D;
             border-radius: 100px;
@@ -150,8 +196,8 @@
             border-radius: 40px;
             cursor: pointer;
             font-family: inherit;
-            margin-top: 10px;
             width: 100%;
+            margin-top: 10px;
         }
         
         .btn-info:active {
@@ -485,12 +531,23 @@
             <input type="date" id="datePicker" onchange="window.selectDate(this.value)">
         </div>
         
-        <div class="stats">
-            <div class="statRow"><span>Всего задач:</span><b id="totalTasks">0</b></div>
-            <div class="statRow"><span>Выполнено:</span><b id="doneTasks">0</b></div>
-            <div class="statRow"><span>Прогресс:</span><b id="progress">0%</b></div>
+        <!-- Блок статистики (сворачиваемый) -->
+        <div class="stats" id="statsBlock">
+            <div class="stats-header" onclick="window.toggleStats()">
+                <h3>СТАТИСТИКА</h3>
+                <span class="stats-arrow" id="statsArrow">▼</span>
+            </div>
+            <div class="stats-content" id="statsContent">
+                <div class="statRow"><span>Всего задач:</span><b id="totalTasks">0</b></div>
+                <div class="statRow"><span>Выполнено:</span><b id="doneTasks">0</b></div>
+                <div class="statRow"><span>Прогресс:</span><b id="progress">0%</b></div>
+                <button class="btn-info" onclick="window.toggleAllPeriods()">Показать даты</button>
+            </div>
+        </div>
+        
+        <!-- Полоска прогресса (всегда видна) -->
+        <div class="progress-section">
             <div class="progress"><div id="progressBar"></div></div>
-            <button class="btn-info" onclick="window.toggleAllPeriods()">Показать даты</button>
         </div>
         
         <div id="todaySection"></div>
@@ -592,6 +649,7 @@
     
     let viewDate = getMskToday();
     let sectionsState = { today: false, daily: false, remind: false };
+    let statsCollapsed = false;
     
     function getMskToday() {
         const formatter = new Intl.DateTimeFormat("ru-RU", {
@@ -633,11 +691,33 @@
     function loadSectionsState() {
         const saved = localStorage.getItem("sectionsState");
         if (saved) sectionsState = JSON.parse(saved);
+        const savedStats = localStorage.getItem("statsCollapsed");
+        if (savedStats !== null) statsCollapsed = savedStats === "true";
+        applyStatsState();
     }
     
     function saveSectionsState() {
         localStorage.setItem("sectionsState", JSON.stringify(sectionsState));
+        localStorage.setItem("statsCollapsed", statsCollapsed);
     }
+    
+    function applyStatsState() {
+        const content = document.getElementById("statsContent");
+        const arrow = document.getElementById("statsArrow");
+        if (statsCollapsed) {
+            content.classList.add("collapsed");
+            arrow.classList.add("collapsed");
+        } else {
+            content.classList.remove("collapsed");
+            arrow.classList.remove("collapsed");
+        }
+    }
+    
+    window.toggleStats = function() {
+        statsCollapsed = !statsCollapsed;
+        applyStatsState();
+        saveSectionsState();
+    };
     
     function isTaskForDay(task, day) {
         if (task.type === "today") return task.date === day;
@@ -1063,11 +1143,11 @@
     
     render();
     
-   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/todo-app/sw.js')
-        .then(() => console.log('SW registered'))
-        .catch(err => console.log('SW error:', err));
-}
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/todo-app/sw.js')
+            .then(() => console.log('SW registered'))
+            .catch(err => console.log('SW error:', err));
+    }
 </script>
 </body>
 </html>
