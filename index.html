@@ -99,7 +99,6 @@
             display: none;
         }
         
-        /* Блок статистики — сворачиваемый */
         .stats {
             background: #1A1B1F;
             border-radius: 24px;
@@ -166,7 +165,6 @@
             font-weight: 600;
         }
         
-        /* Полоска прогресса — всегда видна */
         .progress-section {
             margin-bottom: 16px;
         }
@@ -531,7 +529,6 @@
             <input type="date" id="datePicker" onchange="window.selectDate(this.value)">
         </div>
         
-        <!-- Блок статистики (сворачиваемый) -->
         <div class="stats" id="statsBlock">
             <div class="stats-header" onclick="window.toggleStats()">
                 <h3>СТАТИСТИКА</h3>
@@ -545,7 +542,6 @@
             </div>
         </div>
         
-        <!-- Полоска прогресса (всегда видна) -->
         <div class="progress-section">
             <div class="progress"><div id="progressBar"></div></div>
         </div>
@@ -564,16 +560,12 @@
                     <input id="title" placeholder="Название дела">
                     <select id="type">
                         <option value="today">Задача на сегодня</option>
-                        <option value="daily">Постоянная</option>
+                        <option value="daily">Постоянная (каждый день)</option>
                         <option value="remind">Напоминание</option>
                     </select>
                 </div>
                 
-                <div id="todayDateBlock" style="display:none;">
-                    <div class="form-row-compact">
-                        <input type="date" id="todayDate">
-                    </div>
-                </div>
+                <!-- Блок для задачи на сегодня — скрыт, дата всегда сегодня -->
                 
                 <div id="dailyDatesBlock" style="display:none;">
                     <div class="form-row-compact">
@@ -633,7 +625,6 @@
     const dailySection = document.getElementById("dailySection");
     const remindSection = document.getElementById("remindSection");
     const typeSelect = document.getElementById("type");
-    const todayDateBlock = document.getElementById("todayDateBlock");
     const dailyDatesBlock = document.getElementById("dailyDatesBlock");
     const remindBlock = document.getElementById("remindBlock");
     const remindSubtype = document.getElementById("remindSubtype");
@@ -790,12 +781,7 @@
         };
         
         if (type === "today") {
-            const date = document.getElementById("todayDate").value;
-            if (!date) {
-                alert("Выберите дату");
-                return;
-            }
-            task.date = date;
+            task.date = getMskToday();
         }
         
         if (type === "daily") {
@@ -1059,7 +1045,7 @@
         remindSection.innerHTML = "";
         
         if (todayTasks.length) todaySection.appendChild(renderSection("today", "Задачи на сегодня", todayTasks));
-        if (dailyTasks.length) dailySection.appendChild(renderSection("daily", "Постоянные", dailyTasks));
+        if (dailyTasks.length) dailySection.appendChild(renderSection("daily", "Постоянные (каждый день)", dailyTasks));
         if (remindTasks.length) remindSection.appendChild(renderSection("remind", "Напоминания", remindTasks));
         
         if (total === 0) {
@@ -1114,13 +1100,8 @@
     
     typeSelect.addEventListener("change", () => {
         const type = typeSelect.value;
-        todayDateBlock.style.display = type === "today" ? "block" : "none";
         dailyDatesBlock.style.display = type === "daily" ? "block" : "none";
         remindBlock.style.display = type === "remind" ? "block" : "none";
-        
-        if (type === "today") {
-            document.getElementById("todayDate").value = getMskToday();
-        }
     });
     
     remindSubtype.addEventListener("change", () => {
@@ -1137,7 +1118,6 @@
         }
     });
     
-    document.getElementById("todayDate").value = getMskToday();
     document.getElementById("remindStart").value = getMskToday();
     document.getElementById("remindSpecificDate").value = getMskToday();
     
