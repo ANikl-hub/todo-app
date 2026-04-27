@@ -572,15 +572,21 @@
                     <input id="title" placeholder="Название дела">
                     <select id="type">
                         <option value="today">Задача на сегодня</option>
-                        <option value="daily">Постоянная (каждый день)</option>
+                        <option value="daily">Постоянная</option>
                         <option value="remind">Напоминание</option>
                     </select>
                 </div>
                 
                 <div id="dailyDatesBlock" style="display:none;">
                     <div class="form-row-compact">
-                        <input type="date" id="startDate" placeholder="Дата начала">
-                        <input type="date" id="endDate" placeholder="Дата конца">
+                        <div style="display: flex; gap: 6px; align-items: center;">
+                            <span style="color: #8E8E94; font-size: 0.7rem; width: 24px;">от</span>
+                            <input type="date" id="startDate" style="flex: 1;" placeholder="Дата начала">
+                        </div>
+                        <div style="display: flex; gap: 6px; align-items: center;">
+                            <span style="color: #8E8E94; font-size: 0.7rem; width: 24px;">до</span>
+                            <input type="date" id="endDate" style="flex: 1;" placeholder="Дата конца">
+                        </div>
                     </div>
                 </div>
                 
@@ -1062,7 +1068,7 @@
         remindSection.innerHTML = "";
         
         if (todayTasks.length) todaySection.appendChild(renderSection("today", "Задачи на сегодня", todayTasks));
-        if (dailyTasks.length) dailySection.appendChild(renderSection("daily", "Постоянные (каждый день)", dailyTasks));
+        if (dailyTasks.length) dailySection.appendChild(renderSection("daily", "Постоянные", dailyTasks));
         if (remindTasks.length) remindSection.appendChild(renderSection("remind", "Напоминания", remindTasks));
         
         if (total === 0) {
